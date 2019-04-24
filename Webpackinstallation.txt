@@ -1,6 +1,18 @@
-npm i -D webpack webpack-cli
-NPM Run Build
+
+*******************************************************
+to make changes to this program navigate to the project directory inside a terminal and install webpack with the following command. 
+(Node has to be installed)
+
+	> npm i -D webpack webpack-cli
+
+Once installation is finished run the command 
+	> NPM Run Build
+This will build hte project into the bundle.js and can show changes you made in main.js
+
+
 
 
 Notes
 cant find where the json files are stored
+
+https://www.greenprints.org.au/map-app/subregions.json
