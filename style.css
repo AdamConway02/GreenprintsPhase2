@@ -1,0 +1,400 @@
+html, body, article, .entry-content, #root {
+	height: 100%;
+}
+
+button:hover {
+	background-color: rgba(0,0,0,0) !important;
+}
+
+a:link {
+	text-decoration: none !important;
+}
+
+.container {
+	height: 100%;
+    padding-right: 0px !important; 
+    padding-left: 0px !important;
+}
+
+.top {
+    margin-top: 1.5rem;
+    margin-bottom: 1.5rem;
+}
+
+.container-flex {
+    display:flex;
+    flex-wrap: wrap;
+}
+
+.flex-1 {
+	flex-basis: 70%;
+	z-index: 20;
+}
+
+.mapControl {
+	margin-bottom: .5rem;
+}
+
+#mapid { 
+	height: 70%; 
+	z-index: 1;
+}
+
+.flex-2 {
+	flex-basis: 30%;
+}
+
+.information-display {
+	height: 70%;
+	position:relative;
+}
+
+.information-display .card-header {
+    overflow:auto;
+    height: 35%;
+}
+
+.information-display .card-body {
+    overflow:auto;
+	height: 100%;
+	overflow:scroll;
+	position:absolute;
+	top:0;
+	left:0;
+	width:100%;
+}
+
+.information-display .card-header p {
+    margin-bottom: 0;
+}
+
+
+.scroll-bar-styled::-webkit-scrollbar-track
+{
+	-webkit-box-shadow: inset 0 0 6px rgba(0,0,0,0.2);
+	border-radius: 7px;
+	background-color: #F5F5F5;
+}
+
+.scroll-bar-styled::-webkit-scrollbar
+{
+	width: 12px;
+	background-color: #F5F5F5;
+}
+
+.scroll-bar-styled::-webkit-scrollbar-thumb
+{
+	border-radius: 10px;
+	-webkit-box-shadow: inset 0 0 6px rgba(0,0,0,.3);
+	background-color: #888;
+}
+
+/* Inner map widget */
+.panel-container {
+	position: relative;
+	width: 100%;
+	height: 100%;
+}
+
+.panel-toggle {
+	position: absolute;
+	top: 15px;
+	right: 15px;
+	width: 30px;
+	height: 30px;
+	background: none;
+	border: none;
+	outline: none;
+	cursor: pointer;
+	transition: .40s;
+	z-index: 101;
+}
+
+.panel-toggle:focus {
+	outline: none;
+}
+
+.panel-toggle span {
+	width: 30px;
+	height: 3px;
+	background: #FFF;
+	position: absolute;
+	top: 0;
+	right: 0;
+	transition: .40s;
+}
+
+.panel-toggle span:before {
+	width: 30px;
+	height: 3px;
+	background: #FFF;
+	position: absolute;
+	top: 7px;
+	right: 0;
+	content: '';
+	transition: .40s;
+}
+  
+.panel-toggle span:after {
+	width: 30px;
+	height: 3px;
+	background: #FFF;
+	position: absolute;
+	top: 14px;
+	right: 0;
+	content: '';
+	transition: .40s;
+}
+
+.panel-toggle-close {
+	position: absolute;
+	background: none;
+	top: 15px;
+	right: 15px;
+	width: 30px;
+	height: 30px;
+	border: none;
+	outline: none;
+	cursor: pointer;
+	transition: .40s;
+	z-index: 101;
+}
+
+.panel-toggle-close:focus {
+	outline: none;
+}
+
+.panel-toggle-close span {
+	width: 30px;
+	height: 3px;
+	background: #FFF;
+	position: absolute;
+	top: 10px;
+	right: 0;
+	border-radius: 3px;
+	transition: .40s;
+	transform: rotate(45deg);
+}
+.panel-toggle-close span:before {
+	width: 100%;
+	height: 3px;
+	border-radius: 3px;
+	content: '';
+	position: absolute;
+	top: 7px;
+	right: 0;
+	background: transparent;
+	transition: .40s
+}
+.panel-toggle-close span:after {
+	width: 100%;
+	height: 3px;
+	border-radius: 3px;
+	content: '';
+	position: absolute;
+	top: 0px;
+	right: 0;
+	background: #FFF;
+	transition: .40s;
+	transform: rotate(-90deg);
+}
+
+.panel-side {
+	padding: 2px;
+	box-sizing: border-box;
+	width: 20vw;
+	height: 70%;
+	position: absolute;
+	top: 0;
+	right: 0;
+	color: #fff;
+	background-color: rgba(0, 0, 0, 0.6);
+	overflow: auto;
+	display: none;
+	z-index: 100;
+}
+
+.panel-side h2 {
+	padding: 0 20px;
+	margin: 20px 0;
+}
+
+.panel-side ul {
+	list-style: none;
+	margin: 0;
+	padding: 0;
+}
+
+#show-more-button {
+	margin: auto;
+}
+
+.modal {
+	position:fixed;
+	top: 0;
+	bottom: 0;
+	left: 0;
+	right: 0;
+}
+
+.modal-content {
+	height: 500px;
+}
+
+.modal-header {
+	height: 80;
+}
+
+#region-detail-modal {
+	z-index: 1000
+}
+
+#region-detail-body {
+	overflow: scroll;
+}
+
+#region-detail-body .card-header {
+	cursor: pointer;
+}
+
+#region-loading {
+	background: rgba(0, 0, 0, 0.3);
+	bottom: 0;
+	left: 0;
+	position: absolute;
+	right: 0;
+	top: 0;
+	z-index: 9998;
+}
+
+.group-detail {
+	height: 400px;
+	overflow:scroll;
+}
+
+.leaflet-touch .leaflet-bar a:last-child {
+	padding:2px !important;
+}
+
+.fa-map-marker {
+	font-size: 22px !important;
+}
+
+.fa-expand {
+	font-size: 19px !important;
+	display:block;
+	margin-top: 5px;
+}
+
+.fade {
+	transition: opacity .15s linear;
+}
+
+.fade.show {
+	opacity: 100;
+}
+
+.fade:not(.show) {
+	opacity: 0;
+}
+
+.spinner {
+	background: #000
+		url(https://code.jquery.com/mobile/1.1.0/images/ajax-loader.gif) 0 0
+		no-repeat;
+	border: 0;
+	-webkit-border-radius: 36px;
+	-moz-border-radius: 36px;
+	border-radius: 36px;
+	box-shadow: 0 1px 1px -1px #fff;
+	display: block;
+	height: 46px;
+	left: 50%;
+	margin: -23px 0 0 -23px;
+	opacity: 0.18;
+	overflow: hidden;
+	padding: 1px;
+	position: fixed;
+	text-align: center;
+	top: 50%;
+	width: 46px;
+	z-index: 9999;
+}
+
+.btn-buttom {
+	position: absolute;
+	bottom: 10;
+	left: 0;
+	right: 0;
+	margin:auto;
+}
+
+@media (max-width: 575px) {
+    .container {
+        padding: 0;
+	}
+	
+	#mapid {
+		height: 100%;
+	}
+
+    .top {
+        margin-top: 0.6rem;
+        margin-bottom: 0.7rem;
+    }    
+
+    .flex-1 {
+        flex-basis: 100%;
+        height: 50%;
+    }
+
+    .flex-2 {
+        margin-top: 15px;
+        margin-bottom: 15px;
+        flex-basis: 100%;
+        height: 50%;
+        padding-left: 0.5rem;
+        padding-right: 0.5rem;
+	}
+	
+    .information-display {
+        height: 100%;
+    }
+
+    .information-display .card-header {
+        display:none;
+    }
+    
+    .information-display .card-body {
+        height: 95%;
+	}
+	
+	.panel-side {
+		width: 100vw;
+		height: 100%;
+	}
+}
+
+@media (min-width: 1200px){
+    .container {
+        max-width: 65vw !important;
+    }
+}
+
+/* --- */
+#infobox{
+    display: inline-block;
+    position: relative;
+    height: 100%;
+    overflow: hidden;
+    width: 700px;
+	padding:10px;
+	padding-left: 30px;
+}
+
+#colophon{
+	display:none;
+}
+button.easy-button-button.leaflet-bar-part.leaflet-interactive.unnamed-state-active {
+    padding: 0;
+}

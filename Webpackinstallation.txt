@@ -1,0 +1,6 @@
+npm i -D webpack webpack-cli
+NPM Run Build
+
+
+Notes
+cant find where the json files are stored
