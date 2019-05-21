@@ -7,7 +7,7 @@ to make changes to this program navigate to the project directory inside a termi
 
 Once installation is finished run the command 
 	> NPM Run Build
-This will build hte project into the bundle.js and can show changes you made in main.js
+This will build th e project into the bundle.js and can show changes you made in main.js
 
 
 
