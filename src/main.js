@@ -297,7 +297,9 @@ const DEFAULT_MARKER_RADIUS = 50000;
 
 				//Get information from posts about bioregions
 				var titlePostRegion = this.currentRegionName.replace(/ /g, "-");
+				console.log(titlePostRegion)
 				let url = 'https://www.greenprints.org.au/wp-json/wp/v2/posts?categories=39&slug=' + titlePostRegion;
+				// let subregiondetail = 
 
 				if (!this.data[titlePostRegion]) this.data[titlePostRegion] = {};
 				if (this.data[titlePostRegion].loading == true) return;
@@ -350,10 +352,11 @@ const DEFAULT_MARKER_RADIUS = 50000;
 				//Get information from posts about bioregions
 				var titlePostRegion = this.currentRegionName.replace(/ /g, "-");
 				var subregiontitle = this.currentSubRegionName.replace(/ /g, '-')
-				console.log("start")
-				if (subregion !== '') {
+				console.log("start0jiui")
+				if (subregiontitle !== '') {
 					console.log("Subregioned")
 					let url = 'https://www.greenprints.org.au/wp-json/wp/v2/posts?categories=39&slug=' + subregiontitle;
+					console.log(url)
 				}else{
 					console.log("Bioregioned")
 					let url = 'https://www.greenprints.org.au/wp-json/wp/v2/posts?categories=39&slug=' + titlePostRegion;
