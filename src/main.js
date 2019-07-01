@@ -318,6 +318,7 @@ const DEFAULT_MARKER_RADIUS = 50000;
 								this.data[titlePostRegion].data = data[0].content.rendered;
 								this.detailElement.innerHTML += this.data[titlePostRegion].data
 							}
+							url = ''
 
 							this.data[titlePostRegion].loading = false;
 						}, () => {
@@ -349,25 +350,22 @@ const DEFAULT_MARKER_RADIUS = 50000;
 
 				// 
 
-				//Get information from posts about bioregions
-				var titlePostRegion = this.currentRegionName.replace(/ /g, "-");
+				//Get information from posts about subbioregions
 				var subregiontitle = this.currentSubRegionName.replace(/ /g, '-')
+				let url=''
 				console.log("start0jiui")
 				if (subregiontitle !== '') {
 					console.log("Subregioned")
-					let url = 'https://www.greenprints.org.au/wp-json/wp/v2/posts?categories=39&slug=' + subregiontitle;
+					url = 'https://www.greenprints.org.au/wp-json/wp/v2/posts?categories=39&slug=' + subregiontitle;
 					console.log(url)
-				}else{
-					console.log("Bioregioned")
-					let url = 'https://www.greenprints.org.au/wp-json/wp/v2/posts?categories=39&slug=' + titlePostRegion;
 				}
-				if (!this.data[titlePostRegion]) this.data[titlePostRegion] = {};
-				if (this.data[titlePostRegion].loading == true) return;
+				if (!this.data[subregiontitle]) this.data[subregiontitle] = {};
+				if (this.data[subregiontitle].loading == true) return;
 
-				if (this.data[titlePostRegion].data) {
-					this.detailElement.innerHTML += this.data[titlePostRegion].data
+				if (this.data[subregiontitle].data) {
+					this.detailElement.innerHTML += this.data[subregiontitle].data
 				} else {
-					this.data[titlePostRegion].loading = true;
+					this.data[subregiontitle].loading = true;
 
 					sendRequest({ method: 'GET', url })
 						.then((result) => {
@@ -375,12 +373,13 @@ const DEFAULT_MARKER_RADIUS = 50000;
 							if (!data.length) {
 								this.detailElement.innerHTML += '<p>This region currently has no information. You can add information about this bioregion <a href="/submit-bioregions">here</a>.</p>'
 							} else {
-								this.data[titlePostRegion].data = data[0].content.rendered;
-								this.detailElement.innerHTML += this.data[titlePostRegion].data
+								this.data[subregiontitle].data = data[0].content.rendered;
+								this.detailElement.innerHTML += this.data[subregiontitle].data
 							}
-							this.data[titlePostRegion].loading = false;
+							this.data[subregiontitle].loading = false;
+
 						}, () => {
-							this.data[titlePostRegion].loading = false;
+							this.data[subregiontitle].loading = false;
 						})
 				}
 
