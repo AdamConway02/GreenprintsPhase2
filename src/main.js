@@ -280,10 +280,54 @@ const DEFAULT_MARKER_RADIUS = 50000;
 		})
 	}
 
+
+	// ---------------------------
+	// New features Adam
+	//---------------------------
+
+	var geojson;
+
+	function highlightFeature(e) {
+		var layer = e.target;
+		console.log(e.target)
+	
+		layer.setStyle({
+			weight: 5,
+			color: '#666',
+			dashArray: '',
+			fillOpacity: 0.7
+		});
+	
+		if (!L.Browser.ie && !L.Browser.opera && !L.Browser.edge) {
+			layer.bringToFront();
+		}
+	}
+	
+	function resetHighlight(e) {
+		console.log("left" + e.target)
+		geojson.resetStyle(e.target);
+		console.log ("left zone")
+	}
+
+	// Does not work 
+	function zoomToFeature(e) {
+		map.fitBounds(e.target.getBounds());
+		console.log("id: " + e.target.feature.id)
+		console.log("name: " + e.target.feature.properties.name)
+		clickedregion = e.target.feature.id;
+	}
+
+	//--------------------------------------------------
+	
+	
+
 	//Handler for click events for each feature in geojson layer (Regions)
 	// also gets the region info this has to change fro new region info
 	main.prototype.onEachFeatureRegions = function (feature, layer) {
 		layer.on({
+			mouseover: highlightFeature,
+			mouseout: resetHighlight,
+			click: zoomToFeature,
 			click: (e) => {
 				this.currentRegionName = e.target.feature.properties.n;
 				this.detailElement.innerHTML = '<strong>Bioregion: </strong>' + this.currentRegionName + '<hr/>';
@@ -332,6 +376,12 @@ const DEFAULT_MARKER_RADIUS = 50000;
 	//Handler for click events for each feature in geojson layer (Sub-regions)
 	main.prototype.onEachFeatureSubRegions = function (feature, layer) {
 		layer.on({
+			// Added zoom and highlight features 
+			// mouse over breaks zoom auto change zoom feature
+			mouseover: highlightFeature,
+			mouseout: resetHighlight,
+			click: zoomToFeature,
+
 			click: (e) => {
 				this.currentRegionName = e.target.feature.properties.n;
 				this.currentSubRegionName = e.target.feature.properties.sub_n;
@@ -353,7 +403,6 @@ const DEFAULT_MARKER_RADIUS = 50000;
 				//Get information from posts about subbioregions
 				var subregiontitle = this.currentSubRegionName.replace(/ /g, '-')
 				let url=''
-				console.log("start0jiui")
 				if (subregiontitle !== '') {
 					console.log("Subregioned")
 					url = 'https://www.greenprints.org.au/wp-json/wp/v2/posts?categories=39&slug=' + subregiontitle;
@@ -588,6 +637,23 @@ const DEFAULT_MARKER_RADIUS = 50000;
 			this.subregions_simple ? this.subregions_simple.addTo(this.map) : this.subregions.addTo(this.map)
 		}
 	}
+
+
+	function controlfeature(feature, layer) {
+		layer.on({
+			mouseover: highlightFeature,
+			mouseout: resetHighlight,
+			click: zoomToFeature,
+		});
+	}
+	
+	// geojson = L.geoJson({
+	// 	onEachFeature: controlfeature
+	// }).addTo(map);
+	
+
+
+
 
 	return new main();
 })().init();
