@@ -5,8 +5,21 @@ const DEFAULT_LNG = 131.035431;
 const DEFAULT_ZOOM = 4;
 const DEFAULT_MARKER_RADIUS = 50000;
 
+
+
 //trying not to expose anything.
 (function () {
+
+	//-----------------------
+	// Properties
+	//-----------------------
+
+	// trying to store the json info when region is clicked on
+	let currentRegionInfo;
+
+	//-----------------------------------------------------
+
+
 
 	let {
 		sendRequest,
@@ -37,19 +50,37 @@ const DEFAULT_MARKER_RADIUS = 50000;
 		this.regionDetailBodyAccordion = document.getElementById("accordion");
 		this.regionLoading = document.getElementById("region-loading");
 
-		this.showMoreButton = document.createElement("button");
-		this.showMoreButton.id = "show-more-button";
-		this.showMoreButton.classList.add("btn", "btn-info");
-		this.showMoreButton.innerHTML = "More";
+		// Details for the isolate button.
+		this.isolate = document.createElement("button");
+		this.isolate.id = "isolate-button";
+		this.isolate.classList.add("btn", "btn-info");
+		this.isolate.innerHTML = "Isolate";
 
-		// i dont know what this is - adam
-		this.showMoreButton.addEventListener("click", () => {
-			this.toggleModal();
-			this.getRegionInfo([
-				'Mammals',
-				'Birds',
-				'Amphibians'
-			], false);
+
+
+		// Function that is run when button is pressed 
+		this.isolate.addEventListener("click", () => {
+			// console.log("info: ", currentRegionInfo);
+			// removes all the bioregions from the map
+			this.map.removeLayer(this.regions);
+
+			// the style of the isolate bioregion
+			function isolatedStyle(feature) {
+				return {
+					fillColor: "#FF00FF",
+					fillOpacity: 1,
+					color: '#B04173',
+				};
+			}
+
+			// Creating a new layer with the information about the selected bioregion
+			var selectedLayer = new L.geoJSON(currentRegionInfo, {
+				style: isolatedStyle
+				// onEachFeature: onEachFeature
+			});
+
+			// add the selected bioregion to the map
+			selectedLayer.addTo(this.map);
 		});
 	}
 
@@ -61,7 +92,8 @@ const DEFAULT_MARKER_RADIUS = 50000;
 		this.initMap();
 		this.initEvents();
 		this.initCarto();
-		this.initData();
+
+		// this.initData();
 
 		this.isInitialized = true;
 		this.zoomedIn = false;
@@ -78,123 +110,123 @@ const DEFAULT_MARKER_RADIUS = 50000;
 	 * Ala has a list of REST API endpoints that can be used but none of them have specific data we wanted
 	 * The endpoint used here is for their own application (not expected to be used by 3rd party)
 	 */
-	main.prototype.getRegionInfo = function (groups, more) {
-		let regionPid = this.alaRegionsMapping[this.currentRegionName].pid;
+	// main.prototype.getRegionInfo = function (groups, more) {
+	// 	let regionPid = this.alaRegionsMapping[this.currentRegionName].pid;
 
-		let timePeriod = 10;
+	// 	let timePeriod = 10;
 
-		this.regionDetailTitle.innerHTML = this.currentRegionName
+	// 	this.regionDetailTitle.innerHTML = this.currentRegionName
 
-		let groupsUrl = `https://regions.ala.org.au/region/showGroups?\
-		regionFid=cl1048&regionType=Biogeographic+regions&\
-		regionName=${this.currentRegionName.split(' ').join('+')}&regionPid=${regionPid}&aazones=groupsZone&aatags=tbody`;
+	// 	let groupsUrl = `https://regions.ala.org.au/region/showGroups?\
+	// 	regionFid=cl1048&regionType=Biogeographic+regions&\
+	// 	regionName=${this.currentRegionName.split(' ').join('+')}&regionPid=${regionPid}&aazones=groupsZone&aatags=tbody`;
 
-		let parser = new DOMParser();
-		this.regionLoading.style.display = "block";
-		sendRequest({ method: "GET", url: groupsUrl })
-			.then((result) => {
-				let xml = parser.parseFromString(result, 'text/xml');
-				let groupsZone = xml.querySelector("#groupsZone");
+	// 	let parser = new DOMParser();
+	// 	this.regionLoading.style.display = "block";
+	// 	sendRequest({ method: "GET", url: groupsUrl })
+	// 		.then((result) => {
+	// 			let xml = parser.parseFromString(result, 'text/xml');
+	// 			let groupsZone = xml.querySelector("#groupsZone");
 
-				let cdata = groupsZone.firstChild.data;
+	// 			let cdata = groupsZone.firstChild.data;
 
-				let tbody = parser.parseFromString(cdata.replace(/(\w+)=([\w-:]+)/g, '$1="$2"'), 'text/xml');
+	// 			let tbody = parser.parseFromString(cdata.replace(/(\w+)=([\w-:]+)/g, '$1="$2"'), 'text/xml');
 
-				let requests = groups.map((group) =>
-					new Promise((res, rej) => {
-						let groupRow = tbody.querySelectorAll(`[parent="${group}-row"]`);
-						let speciesSubgroup = [];
-						groupRow.forEach((r) => { speciesSubgroup.push(`"${r.childNodes[1].innerHTML.trim()}"`) });
-						if (!speciesSubgroup.length) return res({ group, result: null });
-						let to = (new Date).getFullYear(), from = to - timePeriod;
+	// 			let requests = groups.map((group) =>
+	// 				new Promise((res, rej) => {
+	// 					let groupRow = tbody.querySelectorAll(`[parent="${group}-row"]`);
+	// 					let speciesSubgroup = [];
+	// 					groupRow.forEach((r) => { speciesSubgroup.push(`"${r.childNodes[1].innerHTML.trim()}"`) });
+	// 					if (!speciesSubgroup.length) return res({ group, result: null });
+	// 					let to = (new Date).getFullYear(), from = to - timePeriod;
 
-						let speciesSubgroupString = encodeURI(speciesSubgroup.join(' OR ')).replace(/,/g, '\\u002c');
+	// 					let speciesSubgroupString = encodeURI(speciesSubgroup.join(' OR ')).replace(/,/g, '\\u002c');
 
-						//Species record with images.
-						let speciesUrl = `https://biocache.ala.org.au/ws/occurrences/search?q=cl1048:%22${this.currentRegionName.split(' ').join('%20')}%22&\
-					fq=species_subgroup:(${speciesSubgroupString})&\
-					fq=occurrence_year:[${from}-01-01T00:00:00Z%20TO%20${to}-12-31T23:59:59Z]&fq=rank:(species%20OR%20subspecies)&\
-					fq=-occurrence_status_s:absent&fq=geospatial_kosher:true&fq=occurrence_year:*&fq=multimedia:%22Image%22&pageSize=500`
+	// 					//Species record with images.
+	// 					let speciesUrl = `https://biocache.ala.org.au/ws/occurrences/search?q=cl1048:%22${this.currentRegionName.split(' ').join('%20')}%22&\
+	// 				fq=species_subgroup:(${speciesSubgroupString})&\
+	// 				fq=occurrence_year:[${from}-01-01T00:00:00Z%20TO%20${to}-12-31T23:59:59Z]&fq=rank:(species%20OR%20subspecies)&\
+	// 				fq=-occurrence_status_s:absent&fq=geospatial_kosher:true&fq=occurrence_year:*&fq=multimedia:%22Image%22&pageSize=500`
 
-						sendRequest({ method: "GET", url: speciesUrl })
-							.then(result => res({ group, result }))
-					})
-				)
+	// 					sendRequest({ method: "GET", url: speciesUrl })
+	// 						.then(result => res({ group, result }))
+	// 				})
+	// 			)
 
-				return Promise.all(requests);
-			}).then((results) => {
-				if (!more) {
-					this.regionDetailBodyAccordion.innerHTML = `
-				<h5>Animal occurrences</h5>
-				<p>Last ${timePeriod} years</p>
-				<hr/>
-				`;
-				}
+	// 			return Promise.all(requests);
+	// 		}).then((results) => {
+	// 			if (!more) {
+	// 				this.regionDetailBodyAccordion.innerHTML = `
+	// 			<h5>Animal occurrences</h5>
+	// 			<p>Last ${timePeriod} years</p>
+	// 			<hr/>
+	// 			`;
+	// 			}
 
-				results.forEach(({ group, result }) => {
-					if (!result) {
-						this.regionDetailBodyAccordion.innerHTML += `<div class="card">
-					<div class="card-header" data-toggle="collapse" href="#${group}" aria-expanded="false"  aria-controls="${group}">
-						<h5 class="mb-0">
-							${group}
-						</h5>
-					</div>
-					
-						<div id="${group}" class="group-detail collapse">
-							0 occurrences of ${group}
-						</div>
-					</div>`
-						return;
-					}
-					result = JSON.parse(result);
-					let uniq = new Map();
-					result.occurrences.forEach(oc => {
-						if (!uniq.has(oc.vernacularName)) uniq.set(oc.vernacularName, {
-							specie: oc.species || oc.raw_species, name: oc.vernacularName || oc.raw_vernacularName, image: oc.smallImageUrl
-						});
-					});
+	// 			results.forEach(({ group, result }) => {
+	// 				if (!result) {
+	// 					this.regionDetailBodyAccordion.innerHTML += `<div class="card">
+	// 				<div class="card-header" data-toggle="collapse" href="#${group}" aria-expanded="false"  aria-controls="${group}">
+	// 					<h5 class="mb-0">
+	// 						${group}
+	// 					</h5>
+	// 				</div>
 
-					let iterator = uniq.values();
-					this.regionDetailBodyAccordion.innerHTML += `<div class="card">
-					<div class="card-header" data-toggle="collapse" href="#${group}" aria-expanded="false"  aria-controls="${group}">
-						<h5 class="mb-0">
-							${group}
-						</h5>
-					</div>
-					
-					<div id="${group}" class="group-detail collapse">
-						${(uniq.size) ?
-							`<ul style="list-style: none;">
-								${function () {
-								let oc, li = [];
-								while (oc = iterator.next().value) li.push(`<li>${oc.specie} | ${oc.name} <img src="${oc.image}"></li>`);
-								return li.join('');
-							}()}
-							</ul>` : '0 occurrences of ' + group
-						}
-					</div>
-				</div>`
-				})
+	// 					<div id="${group}" class="group-detail collapse">
+	// 						0 occurrences of ${group}
+	// 					</div>
+	// 				</div>`
+	// 					return;
+	// 				}
+	// 				result = JSON.parse(result);
+	// 				let uniq = new Map();
+	// 				result.occurrences.forEach(oc => {
+	// 					if (!uniq.has(oc.vernacularName)) uniq.set(oc.vernacularName, {
+	// 						specie: oc.species || oc.raw_species, name: oc.vernacularName || oc.raw_vernacularName, image: oc.smallImageUrl
+	// 					});
+	// 				});
 
-				if (!more) {
-					this.regionDetailBodyAccordion.innerHTML += `<div id="more-animal-data" class="card">
-					<div class="card-header text-center"><h5 class="mb-0"><b> ... </b></h5> </div></div>
-				`;
-					let xcvzcvx = document.getElementById('more-animal-data');
+	// 				let iterator = uniq.values();
+	// 				this.regionDetailBodyAccordion.innerHTML += `<div class="card">
+	// 				<div class="card-header" data-toggle="collapse" href="#${group}" aria-expanded="false"  aria-controls="${group}">
+	// 					<h5 class="mb-0">
+	// 						${group}
+	// 					</h5>
+	// 				</div>
 
-					xcvzcvx.addEventListener('click', () => {
-						xcvzcvx.parentNode.removeChild(xcvzcvx);
-						this.getRegionInfo(["Plants", "Crustaceans", "Molluscs", "Fish"], true);
-					})
-				}
+	// 				<div id="${group}" class="group-detail collapse">
+	// 					${(uniq.size) ?
+	// 						`<ul style="list-style: none;">
+	// 							${function () {
+	// 							let oc, li = [];
+	// 							while (oc = iterator.next().value) li.push(`<li>${oc.specie} | ${oc.name} <img src="${oc.image}"></li>`);
+	// 							return li.join('');
+	// 						}()}
+	// 						</ul>` : '0 occurrences of ' + group
+	// 					}
+	// 				</div>
+	// 			</div>`
+	// 			})
 
-				this.regionLoading.style.display = "none";
-			}).catch((e) => {
-				console.log(e);
-				console.log("Failed to retrieve region data");
-				this.handleErrors(e);
-			})
-	}
+	// 			if (!more) {
+	// 				this.regionDetailBodyAccordion.innerHTML += `<div id="more-animal-data" class="card">
+	// 				<div class="card-header text-center"><h5 class="mb-0"><b> ... </b></h5> </div></div>
+	// 			`;
+	// 				let xcvzcvx = document.getElementById('more-animal-data');
+
+	// 				xcvzcvx.addEventListener('click', () => {
+	// 					xcvzcvx.parentNode.removeChild(xcvzcvx);
+	// 					this.getRegionInfo(["Plants", "Crustaceans", "Molluscs", "Fish"], true);
+	// 				})
+	// 			}
+
+	// 			this.regionLoading.style.display = "none";
+	// 		}).catch((e) => {
+	// 			console.log(e);
+	// 			console.log("Failed to retrieve region data");
+	// 			this.handleErrors(e);
+	// 		})
+	// }
 
 	/**
 	 * Initialize map.
@@ -285,50 +317,58 @@ const DEFAULT_MARKER_RADIUS = 50000;
 	// New features Adam
 	//---------------------------
 
-	var geojson;
+	// var geojson;
 
-	function highlightFeature(e) {
-		var layer = e.target;
-		console.log(e.target)
-	
-		layer.setStyle({
-			weight: 5,
-			color: '#666',
-			dashArray: '',
-			fillOpacity: 0.7
-		});
-	
-		if (!L.Browser.ie && !L.Browser.opera && !L.Browser.edge) {
-			layer.bringToFront();
-		}
-	}
-	
-	function resetHighlight(e) {
-		console.log("left" + e.target)
-		geojson.resetStyle(e.target);
-		console.log ("left zone")
-	}
+	// function highlightFeature(e) {
+	// 	var layer = e.target;
+	// 	console.log(e.target)
 
-	// Does not work 
-	function zoomToFeature(e) {
-		map.fitBounds(e.target.getBounds());
-		console.log("id: " + e.target.feature.id)
-		console.log("name: " + e.target.feature.properties.name)
-		clickedregion = e.target.feature.id;
-	}
+	// 	layer.setStyle({
+	// 		weight: 5,
+	// 		color: '#666',
+	// 		dashArray: '',
+	// 		fillOpacity: 0.7
+	// 	});
+
+	// 	if (!L.Browser.ie && !L.Browser.opera && !L.Browser.edge) {
+	// 		layer.bringToFront();
+	// 	}
+	// }
+
+	// function resetHighlight(e) {
+	// 	console.log("left" + e.target)
+	// 	geojson.resetStyle(e.target);
+	// 	console.log ("left zone")
+	// }
+
+	// // Does not work 
+	// function zoomToFeature(e) {
+	// 	map.fitBounds(e.target.getBounds());
+	// 	console.log("id: " + e.target.feature.id)
+	// 	console.log("name: " + e.target.feature.properties.name)
+	// 	clickedregion = e.target.feature.id;
+	// }
+
+
 
 	//--------------------------------------------------
-	
-	
+
+
 
 	//Handler for click events for each feature in geojson layer (Regions)
 	// also gets the region info this has to change fro new region info
 	main.prototype.onEachFeatureRegions = function (feature, layer) {
+
 		layer.on({
-			mouseover: highlightFeature,
-			mouseout: resetHighlight,
-			click: zoomToFeature,
+			// mouseover: highlightFeature,
+			// mouseout: resetHighlight,
+			// click: zoomToFeature,
+
+
 			click: (e) => {
+				currentRegionInfo = e.target.feature
+				// currentRegionInfo = e.target
+
 				this.currentRegionName = e.target.feature.properties.n;
 				this.detailElement.innerHTML = '<strong>Bioregion: </strong>' + this.currentRegionName + '<hr/>';
 
@@ -337,7 +377,7 @@ const DEFAULT_MARKER_RADIUS = 50000;
 				}
 
 				this.marker = L.marker(e.latlng).addTo(this.map);
-				this.marker.bindPopup(this.showMoreButton).openPopup();
+				this.marker.bindPopup(this.isolate).openPopup();
 
 				//Get information from posts about bioregions
 				var titlePostRegion = this.currentRegionName.replace(/ /g, "-");
@@ -376,18 +416,19 @@ const DEFAULT_MARKER_RADIUS = 50000;
 	//Handler for click events for each feature in geojson layer (Sub-regions)
 	main.prototype.onEachFeatureSubRegions = function (feature, layer) {
 		layer.on({
+
 			// Added zoom and highlight features 
 			// mouse over breaks zoom auto change zoom feature
-			mouseover: highlightFeature,
-			mouseout: resetHighlight,
-			click: zoomToFeature,
+			// mouseover: highlightFeature,
+			// mouseout: resetHighlight,
+			// click: zoomToFeature,
 
 			click: (e) => {
 				this.currentRegionName = e.target.feature.properties.n;
 				this.currentSubRegionName = e.target.feature.properties.sub_n;
 				this.detailElement.innerHTML = '<strong>Bioregion: </strong>' + this.currentRegionName + '<hr/>';
 
-				
+
 				if (this.currentSubRegionName) {
 					this.detailElement.innerHTML += '<strong>Sub-bioregion: </strong>' + this.currentSubRegionName + '<hr/>';
 				}
@@ -396,13 +437,13 @@ const DEFAULT_MARKER_RADIUS = 50000;
 				}
 
 				this.marker = L.marker(e.latlng).addTo(this.map);
-				this.marker.bindPopup(this.showMoreButton).openPopup();
+				this.marker.bindPopup(this.isolate).openPopup();
 
 				// 
 
 				//Get information from posts about subbioregions
 				var subregiontitle = this.currentSubRegionName.replace(/ /g, '-')
-				let url=''
+				let url = ''
 				if (subregiontitle !== '') {
 					console.log("Subregioned")
 					url = 'https://www.greenprints.org.au/wp-json/wp/v2/posts?categories=39&slug=' + subregiontitle;
@@ -485,7 +526,6 @@ const DEFAULT_MARKER_RADIUS = 50000;
 				if (this.alwaysShowSubBioregions) this.subregions_simple.addTo(this.map);
 			})
 		//Subregions layer with names of subregions
-		// i have no idea what this does it seems like a repeat of the previus function with no zoom control
 		sendRequest({ method: "GET", url: 'https://www.greenprints.org.au/map-app/subregions.json' })
 			.then((data) => this.handleGeoJson(data, this.onEachFeatureSubRegions.bind(this), {
 				color: '#333',
@@ -502,14 +542,14 @@ const DEFAULT_MARKER_RADIUS = 50000;
 
 	//Related to ala data.
 	// I dont see where this is used
-	main.prototype.initData = function () {
-		let alaRegionsUrl = `https://regions.ala.org.au/regions/regionList?type=Biogeographic regions`;
+	// main.prototype.initData = function () {
+	// 	let alaRegionsUrl = `https://regions.ala.org.au/regions/regionList?type=Biogeographic regions`;
 
-		sendRequest({ method: "GET", url: alaRegionsUrl })
-			.then((result) => {
-				this.alaRegionsMapping = JSON.parse(result).objects;
-			})
-	}
+	// 	sendRequest({ method: "GET", url: alaRegionsUrl })
+	// 		.then((result) => {
+	// 			this.alaRegionsMapping = JSON.parse(result).objects;
+	// 		})
+	// }
 
 	//add event listeners for html DOM elements.
 	//these buttons control the functionality for the checkbox to load and hide bioregions
@@ -639,18 +679,18 @@ const DEFAULT_MARKER_RADIUS = 50000;
 	}
 
 
-	function controlfeature(feature, layer) {
-		layer.on({
-			mouseover: highlightFeature,
-			mouseout: resetHighlight,
-			click: zoomToFeature,
-		});
-	}
-	
+	// function controlfeature(feature, layer) {
+	// 	layer.on({
+	// 		mouseover: highlightFeature,
+	// 		mouseout: resetHighlight,
+	// 		click: zoomToFeature,
+	// 	});
+	// }
+
 	// geojson = L.geoJson({
 	// 	onEachFeature: controlfeature
 	// }).addTo(map);
-	
+
 
 
 
