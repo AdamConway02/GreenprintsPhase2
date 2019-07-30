@@ -6,6 +6,8 @@ const DEFAULT_ZOOM = 4;
 const DEFAULT_MARKER_RADIUS = 50000;
 
 
+// Brandon Look at line 123
+
 
 //trying not to expose anything.
 (function () {
@@ -16,9 +18,25 @@ const DEFAULT_MARKER_RADIUS = 50000;
 
 	// trying to store the json info when region is clicked on
 	let currentRegionInfo;
+	// holding all the formatted region data
+	let regionJson;
+	// if region is isolated turns to true and disbales the layers being added with zoom control
+	var disablezoomlayer = false;
+
+	//control for the not isolated layers
+	var otherlayer;
 
 	//-----------------------------------------------------
 
+
+	// get the json storing the region info and store in in front end
+	function getRegions() {
+		sendRequest({ method: "GET", url: 'https://www.greenprints.org.au/map-app/regions.json' })
+			.then((data) => {
+				regionJson = data
+				// console.log("Region data: " ,regionJson);
+			});
+	}
 
 
 	let {
@@ -33,7 +51,7 @@ const DEFAULT_MARKER_RADIUS = 50000;
 	function main() {
 		this.isInitialized = false;
 		this.defaultStyle = {
-			fillColor: "#3388ff"
+			fillColor: "#3388ff"// blue
 		}
 		/* toggle which regions are shown on load 
 		warning change check boxes to match the these.
@@ -56,32 +74,71 @@ const DEFAULT_MARKER_RADIUS = 50000;
 		this.isolate.classList.add("btn", "btn-info");
 		this.isolate.innerHTML = "Isolate";
 
-
-
 		// Function that is run when button is pressed 
 		this.isolate.addEventListener("click", () => {
+
 			// console.log("info: ", currentRegionInfo);
+			// console.log("info: ", this.regions);
+
 			// removes all the bioregions from the map
 			this.map.removeLayer(this.regions);
+
+			//check if other layers have been added to the map
+			if (typeof this.otherlayer !== 'undefined') {
+				this.map.removeLayer(this.otherlayer);
+				console.log("removed otherlayers")
+			}
+
 
 			// the style of the isolate bioregion
 			function isolatedStyle(feature) {
 				return {
-					fillColor: "#FF00FF",
-					fillOpacity: 1,
-					color: '#B04173',
+					fillColor: "#ffffff", // white
+					fillOpacity: .25, //change to 0 when isolaitng is comepleted
+					//border color
+					color: '#000000', // black
 				};
+			}
+
+			function backgroundStyle(feature) {
+				return {
+					fillColor: "#737373", // grey
+					fillOpacity: .7,
+					color: '#000000', // black
+				}
 			}
 
 			// Creating a new layer with the information about the selected bioregion
 			var selectedLayer = new L.geoJSON(currentRegionInfo, {
-				style: isolatedStyle
-				// onEachFeature: onEachFeature
+				style: isolatedStyle,
+
+				// TODO create new on each feature to allow deselection
+				// onEachFeature: this.onEachFeatureRegions.bind(this),
 			});
 
+			this.otherlayer = L.geoJson(JSON.parse(regionJson), {
+				style: backgroundStyle,
+				onEachFeature: this.onEachFeatureRegions.bind(this),
+			});
+			
+			// Brandon what to finish of the isolation subregion below are the logs of the two layers being added to the map.
+			// what i need you to do is to remove the selected layer from the other layers. the unique identifiers are the names and these
+			// can be found in the logs from #Id>properties>N. the problem is the IDs are not consistant so need a way to find the names of 
+			// the otherlayer list bypassing the id and removing the object with the name that is the same as the selectedlayer name
+
+			console.log("other: ", this.otherlayer._layers)
+			console.log("selected: ", selectedLayer._layers)
+
 			// add the selected bioregion to the map
+			this.otherlayer.addTo(this.map);
+
 			selectedLayer.addTo(this.map);
+
+			disablezoomlayer = true;
 		});
+
+		// get the json for all regions
+		getRegions();
 	}
 
 	/**
@@ -417,12 +474,6 @@ const DEFAULT_MARKER_RADIUS = 50000;
 	main.prototype.onEachFeatureSubRegions = function (feature, layer) {
 		layer.on({
 
-			// Added zoom and highlight features 
-			// mouse over breaks zoom auto change zoom feature
-			// mouseover: highlightFeature,
-			// mouseout: resetHighlight,
-			// click: zoomToFeature,
-
 			click: (e) => {
 				this.currentRegionName = e.target.feature.properties.n;
 				this.currentSubRegionName = e.target.feature.properties.sub_n;
@@ -504,7 +555,7 @@ const DEFAULT_MARKER_RADIUS = 50000;
 				this.subregions_simple = layer;
 				this.map.on('zoomend', (e) => {
 					this.currentZoom = this.map.getZoom();
-					if (this.currentZoom > 6) {
+					if (this.currentZoom > 6 && disablezoomlayer == false) {
 						if (!this.zoomedIn) {
 							this.zoomedIn = true;
 							if (!this.alwaysShowBioregions) this.map.removeLayer(this.regions);
