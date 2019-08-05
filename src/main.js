@@ -128,6 +128,16 @@ const DEFAULT_MARKER_RADIUS = 50000;
 
 			console.log("other: ", this.otherlayer._layers)
 			console.log("selected: ", selectedLayer._layers)
+			
+			for(var l in otherlayer){
+				for(var s in selectedLayer)
+				if(l._layers.feature.properties.n == s._layers.feature.properties.n){
+					var index = l.position;
+					var removed = otherlayer.splice(index, 1);
+					
+					console.log("removed from otherlayer: ", removed)
+				}
+			}
 
 			// add the selected bioregion to the map
 			this.otherlayer.addTo(this.map);
