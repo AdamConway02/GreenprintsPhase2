@@ -5,10 +5,6 @@ const DEFAULT_LNG = 131.035431;
 const DEFAULT_ZOOM = 4;
 const DEFAULT_MARKER_RADIUS = 50000;
 
-
-// Brandon Look at line 123
-
-
 //trying not to expose anything.
 (function () {
 
@@ -16,25 +12,32 @@ const DEFAULT_MARKER_RADIUS = 50000;
 	// Properties
 	//-----------------------
 
-	// trying to store the json info when region is clicked on
+	// trying to store the json info when region/subregion is clicked on
 	let currentRegionInfo;
 	// holding all the formatted region data
 	let regionJson;
+	// holding the json data for subregions
+	let subregionJson;
 	// if region is isolated turns to true and disbales the layers being added with zoom control
 	var disablezoomlayer = false;
 
 	//control for the not isolated layers
 	var otherlayer;
+	//controll for the isolated region
+	var selectedLayer;
 
 	//-----------------------------------------------------
 
 
-	// get the json storing the region info and store in in front end
+	// get the json storing the region info and store in regionjson
 	function getRegions() {
 		sendRequest({ method: "GET", url: 'https://www.greenprints.org.au/map-app/regions.json' })
 			.then((data) => {
 				regionJson = data
-				// console.log("Region data: " ,regionJson);
+			});
+		sendRequest({ method: "GET", url: 'https://www.greenprints.org.au/map-app/subregions.json' })
+			.then((data) => {
+				subregionJson = data
 			});
 	}
 
@@ -72,16 +75,99 @@ const DEFAULT_MARKER_RADIUS = 50000;
 		this.isolate = document.createElement("button");
 		this.isolate.id = "isolate-button";
 		this.isolate.classList.add("btn", "btn-info");
-		this.isolate.innerHTML = "Isolate";
+		this.isolate.innerHTML = "Isolate region";
 
+		// Details for the subisolate button.
+		this.subisolate = document.createElement("button");
+		this.subisolate.id = "isolate-button";
+		this.subisolate.classList.add("btn", "btn-info");
+		this.subisolate.innerHTML = "Isolate Subregion";
+
+		//Details for the undo button.
+		this.undo = document.createElement("button");
+		this.undo.id = "undo-button";
+		this.undo.classList.add("btn", "btn-info");
+		this.undo.innerHTML = "Undo";
+
+		// the style of the isolated bioregion
+		function isolatedStyle(feature) {
+			return {
+				fillColor: "#ffffff", // white
+				fillOpacity: 0, //change to 0 when isolaitng is comepleted
+				//border color
+				color: '#000000', // black
+			};
+		}
+		// style for the un-isolated regions
+		function backgroundStyle(feature) {
+			return {
+				fillColor: "#737373", // grey
+				fillOpacity: .7,
+				color: '#000000', // black
+			}
+		}
+
+		// event for undo button 
+		this.undo.addEventListener("click", () => {
+			this.map.removeLayer(this.otherlayer);
+			this.map.removeLayer(this.selectedLayer);
+			this.map.removeLayer(this.regions);
+
+			// reinitialise the map
+			this.initCarto();
+			// enbale the layers showing on zoom
+			disablezoomlayer = false;
+		})
+
+		//------------------
+		// SUBISOLATE
+		//------------------
+		//difference in simplified subregion and subregions is color??
+		// event that triggers when isolate button is clicked for subregions
+		this.subisolate.addEventListener("click", () => {
+			// removes all the bioregions from the map
+			this.map.removeLayer(this.regions);
+
+			//remove all subregions from map when isolating bioregion
+			this.map.removeLayer(this.subregions)
+			this.map.removeLayer(this.subregions_simple)
+
+			this.selectedLayer = L.geoJSON(currentRegionInfo, {
+				style: isolatedStyle,
+				// either make a new subisolated feature to do correct actions along with showing correct data or
+				//change the current isolated feature to be more robust and control regions and subregions
+
+				// this currently gets the wrong information 
+				onEachFeature: this.isolatedFeature.bind(this),
+			});
+
+			this.selectedLayer.addTo(this.map);
+
+
+			// disable the automatic layers for zoom
+			disablezoomlayer = true;
+		})
+
+		//------------------
+		// ISOLATE
+		//------------------
 		// Function that is run when button is pressed 
 		this.isolate.addEventListener("click", () => {
 
-			// console.log("info: ", currentRegionInfo);
-			// console.log("info: ", this.regions);
-
 			// removes all the bioregions from the map
 			this.map.removeLayer(this.regions);
+
+			//remove all subregions from map when isolating bioregion
+			this.map.removeLayer(this.subregions)
+			this.map.removeLayer(this.subregions_simple)
+
+
+			// remove an already selected layer
+			// this could be modified to allow multiple isolations but that requires
+			// a resturctuing of how the data is loaded onto the map
+			if (this.selectedLayer != null) {
+				this.map.removeLayer(this.selectedLayer)
+			}
 
 			//check if other layers have been added to the map
 			if (typeof this.otherlayer !== 'undefined') {
@@ -90,60 +176,43 @@ const DEFAULT_MARKER_RADIUS = 50000;
 			}
 
 
-			// the style of the isolate bioregion
-			function isolatedStyle(feature) {
-				return {
-					fillColor: "#ffffff", // white
-					fillOpacity: .25, //change to 0 when isolaitng is comepleted
-					//border color
-					color: '#000000', // black
-				};
-			}
-
-			function backgroundStyle(feature) {
-				return {
-					fillColor: "#737373", // grey
-					fillOpacity: .7,
-					color: '#000000', // black
-				}
-			}
-
 			// Creating a new layer with the information about the selected bioregion
-			var selectedLayer = new L.geoJSON(currentRegionInfo, {
+			this.selectedLayer = L.geoJSON(currentRegionInfo, {
 				style: isolatedStyle,
-
-				// TODO create new on each feature to allow deselection
-				// onEachFeature: this.onEachFeatureRegions.bind(this),
+				// look at isolated feature make a new one called subisolatedfeatue and add the details for that
+				onEachFeature: this.isolatedFeature.bind(this),
 			});
 
+			// setting the interaction for un-isolated region
 			this.otherlayer = L.geoJson(JSON.parse(regionJson), {
 				style: backgroundStyle,
 				onEachFeature: this.onEachFeatureRegions.bind(this),
 			});
-			
-			// Brandon what to finish of the isolation subregion below are the logs of the two layers being added to the map.
-			// what i need you to do is to remove the selected layer from the other layers. the unique identifiers are the names and these
-			// can be found in the logs from #Id>properties>N. the problem is the IDs are not consistant so need a way to find the names of 
-			// the otherlayer list bypassing the id and removing the object with the name that is the same as the selectedlayer name
 
-			console.log("other: ", this.otherlayer._layers)
-			console.log("selected: ", selectedLayer._layers)
-			
-			for(var l in otherlayer){
-				for(var s in selectedLayer)
-				if(l._layers.feature.properties.n == s._layers.feature.properties.n){
-					var index = l.position;
-					var removed = otherlayer.splice(index, 1);
-					
-					console.log("removed from otherlayer: ", removed)
+			// getting the name of the isolated layer
+			let removeName;
+			// the id of the layer to be removed
+			let otherLayerId;
+			this.selectedLayer.eachLayer(function (layer) {
+				removeName = layer.feature.properties.n
+			});
+
+			// removing the isolated layer from the other layers
+			this.otherlayer.eachLayer(function (layer) {
+				if (layer.feature.properties.n == removeName) {
+					// getting the id of the layer
+					otherLayerId = layer._leaflet_id;
 				}
-			}
+			});
+			// remove the layer with with the id from the un-isolated areas
+			this.otherlayer.removeLayer(otherLayerId);
 
 			// add the selected bioregion to the map
 			this.otherlayer.addTo(this.map);
 
-			selectedLayer.addTo(this.map);
-
+			//add the isolated region to the map
+			this.selectedLayer.addTo(this.map);
+			// disable the automatic zoom controls
 			disablezoomlayer = true;
 		});
 
@@ -379,62 +448,83 @@ const DEFAULT_MARKER_RADIUS = 50000;
 		})
 	}
 
+	main.prototype.isolatedFeature = function (feature, layer) {
+		layer.on({
+			click: (e) => {
+				this.currentRegionName = e.target.feature.properties.n;
+				this.detailElement.innerHTML = '<strong>Bioregion: </strong>' + this.currentRegionName + '<hr/>';
 
-	// ---------------------------
-	// New features Adam
-	//---------------------------
+				if (this.currentSubRegionName) {
+					this.detailElement.innerHTML += '<strong>Sub-bioregion: </strong>' + this.currentSubRegionName + '<hr/>';
+				}
 
-	// var geojson;
+				// remove any markers on the map
+				if (this.marker != undefined) {
+					this.map.removeLayer(this.marker);
+				}
 
-	// function highlightFeature(e) {
-	// 	var layer = e.target;
-	// 	console.log(e.target)
-
-	// 	layer.setStyle({
-	// 		weight: 5,
-	// 		color: '#666',
-	// 		dashArray: '',
-	// 		fillOpacity: 0.7
-	// 	});
-
-	// 	if (!L.Browser.ie && !L.Browser.opera && !L.Browser.edge) {
-	// 		layer.bringToFront();
-	// 	}
-	// }
-
-	// function resetHighlight(e) {
-	// 	console.log("left" + e.target)
-	// 	geojson.resetStyle(e.target);
-	// 	console.log ("left zone")
-	// }
-
-	// // Does not work 
-	// function zoomToFeature(e) {
-	// 	map.fitBounds(e.target.getBounds());
-	// 	console.log("id: " + e.target.feature.id)
-	// 	console.log("name: " + e.target.feature.properties.name)
-	// 	clickedregion = e.target.feature.id;
-	// }
+				this.marker = L.marker(e.latlng).addTo(this.map);
+				this.marker.bindPopup(this.undo).openPopup();
+				//#region Get information about the bioregion should be put in function but doing so breaks functionality
+				//Get information from posts about bioregions
 
 
+				
+				var titlePostRegion = this.currentRegionName.replace(/ /g, "-");
+				// current logic not working
+				try {
+					this.currentSubRegionName = e.target.feature.properties.sub_n;
+				}
+				catch (err) {
+					Console.log("SUB region was not selected")
+				}
 
-	//--------------------------------------------------
 
+				if (this.currentSubRegionName) {
+
+				}else{			
+					// the region selected was a bio region 
+					let url = 'https://www.greenprints.org.au/wp-json/wp/v2/posts?categories=39&slug=' + titlePostRegion;
+
+					if (!this.data[titlePostRegion]) this.data[titlePostRegion] = {};
+					if (this.data[titlePostRegion].loading == true) return;
+
+					if (this.data[titlePostRegion].data) {
+						this.detailElement.innerHTML += this.data[titlePostRegion].data
+					} else {
+						this.data[titlePostRegion].loading = true;
+						console.log(url);
+						sendRequest({ method: 'GET', url })
+							.then((result) => {
+								let data = JSON.parse(result);
+								if (!data.length) {
+									this.detailElement.innerHTML += '<p>This region currently has no information. You can add information about this bioregion <a href="/submit-bioregions">here</a>.</p>'
+								} else {
+									this.data[titlePostRegion].data = data[0].content.rendered;
+									this.detailElement.innerHTML += this.data[titlePostRegion].data
+								}
+								url = ''
+
+								this.data[titlePostRegion].loading = false;
+							}, () => {
+								this.data[titlePostRegion].loading = false;
+							})
+					}
+				}
+				//#endregion
+			}
+		})
+	}
 
 
 	//Handler for click events for each feature in geojson layer (Regions)
 	// also gets the region info this has to change fro new region info
 	main.prototype.onEachFeatureRegions = function (feature, layer) {
-
 		layer.on({
-			// mouseover: highlightFeature,
-			// mouseout: resetHighlight,
-			// click: zoomToFeature,
-
-
 			click: (e) => {
 				currentRegionInfo = e.target.feature
-				// currentRegionInfo = e.target
+				console.log("region: ", currentRegionInfo)
+
 
 				this.currentRegionName = e.target.feature.properties.n;
 				this.detailElement.innerHTML = '<strong>Bioregion: </strong>' + this.currentRegionName + '<hr/>';
@@ -450,7 +540,6 @@ const DEFAULT_MARKER_RADIUS = 50000;
 				var titlePostRegion = this.currentRegionName.replace(/ /g, "-");
 				console.log(titlePostRegion)
 				let url = 'https://www.greenprints.org.au/wp-json/wp/v2/posts?categories=39&slug=' + titlePostRegion;
-				// let subregiondetail = 
 
 				if (!this.data[titlePostRegion]) this.data[titlePostRegion] = {};
 				if (this.data[titlePostRegion].loading == true) return;
@@ -485,6 +574,10 @@ const DEFAULT_MARKER_RADIUS = 50000;
 		layer.on({
 
 			click: (e) => {
+				currentRegionInfo = e.target.feature
+				console.log("subregion: ", currentRegionInfo)
+
+
 				this.currentRegionName = e.target.feature.properties.n;
 				this.currentSubRegionName = e.target.feature.properties.sub_n;
 				this.detailElement.innerHTML = '<strong>Bioregion: </strong>' + this.currentRegionName + '<hr/>';
@@ -498,7 +591,7 @@ const DEFAULT_MARKER_RADIUS = 50000;
 				}
 
 				this.marker = L.marker(e.latlng).addTo(this.map);
-				this.marker.bindPopup(this.isolate).openPopup();
+				this.marker.bindPopup(this.subisolate).openPopup();
 
 				// 
 
@@ -570,8 +663,9 @@ const DEFAULT_MARKER_RADIUS = 50000;
 							this.zoomedIn = true;
 							if (!this.alwaysShowBioregions) this.map.removeLayer(this.regions);
 							if (!this.hideSubBioregions) {
-								this.subregions_simple ? this.subregions_simple.addTo(this.map)
-									: this.subregions.addTo(this.map)
+								// the question mark operatior is a short way for if else statment
+								// aka if this.subregions_simple exists add it to map else add subregions to map
+								this.subregions_simple ? this.subregions_simple.addTo(this.map) : this.subregions.addTo(this.map)
 							}
 						}
 					} else {
@@ -580,12 +674,13 @@ const DEFAULT_MARKER_RADIUS = 50000;
 							if (!this.alwaysShowSubBioregions) {
 								this.subregions_simple ? this.map.removeLayer(this.subregions_simple) : this.map.removeLayer(this.subregions)
 							}
-							if (!this.hideBioregions) this.regions.addTo(this.map);
+							if (!this.hideBioregions && disablezoomlayer == false) this.regions.addTo(this.map);
 						}
 					}
 				})
 				if (this.alwaysShowSubBioregions) this.subregions_simple.addTo(this.map);
 			})
+
 		//Subregions layer with names of subregions
 		sendRequest({ method: "GET", url: 'https://www.greenprints.org.au/map-app/subregions.json' })
 			.then((data) => this.handleGeoJson(data, this.onEachFeatureSubRegions.bind(this), {
@@ -738,23 +833,5 @@ const DEFAULT_MARKER_RADIUS = 50000;
 			this.subregions_simple ? this.subregions_simple.addTo(this.map) : this.subregions.addTo(this.map)
 		}
 	}
-
-
-	// function controlfeature(feature, layer) {
-	// 	layer.on({
-	// 		mouseover: highlightFeature,
-	// 		mouseout: resetHighlight,
-	// 		click: zoomToFeature,
-	// 	});
-	// }
-
-	// geojson = L.geoJson({
-	// 	onEachFeature: controlfeature
-	// }).addTo(map);
-
-
-
-
-
 	return new main();
 })().init();
