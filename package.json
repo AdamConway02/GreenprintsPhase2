@@ -27,6 +27,7 @@
     "xmlhttprequest": "^1.8.0"
   },
   "dependencies": {
+    "leaflet-draw": "^1.0.4",
     "leaflet-easybutton": "^2.4.0"
   }
 }

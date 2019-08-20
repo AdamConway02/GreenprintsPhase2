@@ -290,135 +290,14 @@ const DEFAULT_MARKER_RADIUS = 50000;
 		document.getElementById("hide-subregions").checked = false;
 	}
 
-	/**
-	 * Getting data from ala.
-	 * Ala has a list of REST API endpoints that can be used but none of them have specific data we wanted
-	 * The endpoint used here is for their own application (not expected to be used by 3rd party)
-	 */
-	// main.prototype.getRegionInfo = function (groups, more) {
-	// 	let regionPid = this.alaRegionsMapping[this.currentRegionName].pid;
-
-	// 	let timePeriod = 10;
-
-	// 	this.regionDetailTitle.innerHTML = this.currentRegionName
-
-	// 	let groupsUrl = `https://regions.ala.org.au/region/showGroups?\
-	// 	regionFid=cl1048&regionType=Biogeographic+regions&\
-	// 	regionName=${this.currentRegionName.split(' ').join('+')}&regionPid=${regionPid}&aazones=groupsZone&aatags=tbody`;
-
-	// 	let parser = new DOMParser();
-	// 	this.regionLoading.style.display = "block";
-	// 	sendRequest({ method: "GET", url: groupsUrl })
-	// 		.then((result) => {
-	// 			let xml = parser.parseFromString(result, 'text/xml');
-	// 			let groupsZone = xml.querySelector("#groupsZone");
-
-	// 			let cdata = groupsZone.firstChild.data;
-
-	// 			let tbody = parser.parseFromString(cdata.replace(/(\w+)=([\w-:]+)/g, '$1="$2"'), 'text/xml');
-
-	// 			let requests = groups.map((group) =>
-	// 				new Promise((res, rej) => {
-	// 					let groupRow = tbody.querySelectorAll(`[parent="${group}-row"]`);
-	// 					let speciesSubgroup = [];
-	// 					groupRow.forEach((r) => { speciesSubgroup.push(`"${r.childNodes[1].innerHTML.trim()}"`) });
-	// 					if (!speciesSubgroup.length) return res({ group, result: null });
-	// 					let to = (new Date).getFullYear(), from = to - timePeriod;
-
-	// 					let speciesSubgroupString = encodeURI(speciesSubgroup.join(' OR ')).replace(/,/g, '\\u002c');
-
-	// 					//Species record with images.
-	// 					let speciesUrl = `https://biocache.ala.org.au/ws/occurrences/search?q=cl1048:%22${this.currentRegionName.split(' ').join('%20')}%22&\
-	// 				fq=species_subgroup:(${speciesSubgroupString})&\
-	// 				fq=occurrence_year:[${from}-01-01T00:00:00Z%20TO%20${to}-12-31T23:59:59Z]&fq=rank:(species%20OR%20subspecies)&\
-	// 				fq=-occurrence_status_s:absent&fq=geospatial_kosher:true&fq=occurrence_year:*&fq=multimedia:%22Image%22&pageSize=500`
-
-	// 					sendRequest({ method: "GET", url: speciesUrl })
-	// 						.then(result => res({ group, result }))
-	// 				})
-	// 			)
-
-	// 			return Promise.all(requests);
-	// 		}).then((results) => {
-	// 			if (!more) {
-	// 				this.regionDetailBodyAccordion.innerHTML = `
-	// 			<h5>Animal occurrences</h5>
-	// 			<p>Last ${timePeriod} years</p>
-	// 			<hr/>
-	// 			`;
-	// 			}
-
-	// 			results.forEach(({ group, result }) => {
-	// 				if (!result) {
-	// 					this.regionDetailBodyAccordion.innerHTML += `<div class="card">
-	// 				<div class="card-header" data-toggle="collapse" href="#${group}" aria-expanded="false"  aria-controls="${group}">
-	// 					<h5 class="mb-0">
-	// 						${group}
-	// 					</h5>
-	// 				</div>
-
-	// 					<div id="${group}" class="group-detail collapse">
-	// 						0 occurrences of ${group}
-	// 					</div>
-	// 				</div>`
-	// 					return;
-	// 				}
-	// 				result = JSON.parse(result);
-	// 				let uniq = new Map();
-	// 				result.occurrences.forEach(oc => {
-	// 					if (!uniq.has(oc.vernacularName)) uniq.set(oc.vernacularName, {
-	// 						specie: oc.species || oc.raw_species, name: oc.vernacularName || oc.raw_vernacularName, image: oc.smallImageUrl
-	// 					});
-	// 				});
-
-	// 				let iterator = uniq.values();
-	// 				this.regionDetailBodyAccordion.innerHTML += `<div class="card">
-	// 				<div class="card-header" data-toggle="collapse" href="#${group}" aria-expanded="false"  aria-controls="${group}">
-	// 					<h5 class="mb-0">
-	// 						${group}
-	// 					</h5>
-	// 				</div>
-
-	// 				<div id="${group}" class="group-detail collapse">
-	// 					${(uniq.size) ?
-	// 						`<ul style="list-style: none;">
-	// 							${function () {
-	// 							let oc, li = [];
-	// 							while (oc = iterator.next().value) li.push(`<li>${oc.specie} | ${oc.name} <img src="${oc.image}"></li>`);
-	// 							return li.join('');
-	// 						}()}
-	// 						</ul>` : '0 occurrences of ' + group
-	// 					}
-	// 				</div>
-	// 			</div>`
-	// 			})
-
-	// 			if (!more) {
-	// 				this.regionDetailBodyAccordion.innerHTML += `<div id="more-animal-data" class="card">
-	// 				<div class="card-header text-center"><h5 class="mb-0"><b> ... </b></h5> </div></div>
-	// 			`;
-	// 				let xcvzcvx = document.getElementById('more-animal-data');
-
-	// 				xcvzcvx.addEventListener('click', () => {
-	// 					xcvzcvx.parentNode.removeChild(xcvzcvx);
-	// 					this.getRegionInfo(["Plants", "Crustaceans", "Molluscs", "Fish"], true);
-	// 				})
-	// 			}
-
-	// 			this.regionLoading.style.display = "none";
-	// 		}).catch((e) => {
-	// 			console.log(e);
-	// 			console.log("Failed to retrieve region data");
-	// 			this.handleErrors(e);
-	// 		})
-	// }
 
 	/**
 	 * Initialize map.
 	 * 
 	 */
 	main.prototype.initMap = function () {
-		this.map = L.map('mapid').setView([DEFAULT_LAT, DEFAULT_LNG], DEFAULT_ZOOM);
+		// draw control allows draing on the map
+		this.map = L.map('mapid', { drawControl: false }).setView([DEFAULT_LAT, DEFAULT_LNG], DEFAULT_ZOOM);
 		this.zoomLevels = {
 			start: this.map.getZoom(),
 			end: this.map.getZoom()
@@ -479,6 +358,95 @@ const DEFAULT_MARKER_RADIUS = 50000;
 		let searchControl = new L.Control.Search(searchCtlOption);
 
 		this.map.addControl(searchControl);
+
+		//------------------
+		// Draw control
+		//------------------
+
+		var editableLayers = new L.FeatureGroup();
+		this.map.addLayer(editableLayers);
+
+		// var MyCustomMarker = L.Icon.extend({
+		// 	options: {
+		// 		shadowUrl: null,
+		// 		iconAnchor: new L.Point(12, 12),
+		// 		iconSize: new L.Point(24, 24),
+		// 		// iconUrl: 'link/to/image.png'
+		// 	}
+		// });
+
+		var options = {
+			position: 'bottomright',
+			draw: {
+				polygon: {
+					allowIntersection: false, // Restricts shapes to simple polygons
+					drawError: {
+						color: '#0BE100 ', // Color the shape will turn when intersects
+					},
+					shapeOptions: {
+						color: '#0BE100 '
+					}
+				},
+				polyline:false,
+				circle: false, // Turns off this drawing tool
+				rectangle: false,
+				marker: false,
+				remove: true,
+				circlemarker: false
+			},
+			edit: {
+				featureGroup: editableLayers, //REQUIRED!!
+				// remove: true
+			}
+		};
+		var drawControl = new L.Control.Draw(options);
+		this.map.addControl(drawControl);
+
+		var options2= {
+			position: 'bottomleft',
+			draw: {
+				polygon: {
+					shapeOptions: {
+						color: '#E100D3',
+						showArea: true
+					}
+				},
+				polyline:false,
+				circle: false, // Turns off this drawing tool
+				rectangle: false,
+				marker: false,
+				remove: true,
+				circlemarker: false
+			},
+			edit: {
+				featureGroup: editableLayers, //REQUIRED!!
+			}
+		};
+
+		var drawControl2 = new L.Control.Draw(options2);
+		this.map.addControl(drawControl2);
+
+		this.map.on(L.Draw.Event.CREATED, function (e) {
+			var type = e.layerType,
+				layer = e.layer;
+
+			if (type === 'marker') {
+				layer.bindPopup('A popup!');
+			}
+
+			editableLayers.addLayer(layer);
+		});
+
+		// allows to change what is the function draws
+		drawControl.setDrawingOptions({
+			rectangle: {
+				shapeOptions: {
+					color: '#fffff'
+				}
+			}
+		});
+	
+		// end of init map
 	}
 
 	//handler for geojson data. Randomize colors
@@ -908,6 +876,7 @@ const DEFAULT_MARKER_RADIUS = 50000;
 			this.map.removeLayer(this.marker);
 		}
 	}
+
 
 	return new main();
 })().init();
