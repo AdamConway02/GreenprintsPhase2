@@ -24,6 +24,9 @@
 	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet.draw/1.0.4/leaflet.draw.css" />
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet.draw/1.0.4/leaflet.draw.js"></script>
 
+	<!-- Linking fontawesome for icons -->
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+
 </head>
 
 <body>
@@ -73,7 +76,45 @@
 						</div>
 					</div>
 
+
+					<!-- Drawing tool -->
+					<!-- <button id="drawing-toggle" class="drawing-toggle">
+						<span></span>
+					</button> -->
+
+
+					<!-- <div id="drawing-side" class="drawing-side">
+						<div class="row">
+							<div class="col-10">
+								<h5 class="ml-2 mr-2"></h5>
+							</div>
+						</div>
+						<div id="draw controls">
+							<ul>
+								<li>
+									<input type="checkbox" checked id="Show-water">
+									<label for="Drawing">Water</label>
+								</li>
+							</ul>
+						</div>
+					</div> -->
+
+					<!-- //------------------------- -->
+
+
+
 					<div id="mapid"></div>
+					<div id="Drawingselector" class="Drawingselector">
+						<input type="radio" id="DrawingNone" name="category" value="DrawingNone" checked="checked"> No Toolbar
+						<input type="radio" id="DrawingVegetation" name="category" value="DrawingVegetation" > Vegetation
+						<input type="radio" id="DrawingAgriculture" name="category" value="DrawingAgriculture"> Agriculture
+						<input type="radio" id="DrawingResidential" name="category" value="DrawingResidential"> Residential
+						<input type="radio" id="DrawingIndustrial" name="category" value="DrawingIndustrial"> Industrial
+						<input type="radio" id="DrawingCommunity" name="category" value="DrawingCommunity"> Community
+						<input type="radio" id="DrawingFencelines" name="category" value="DrawingFencelines"> Fencelines
+						<input type="radio" id="Drawingwaterways" name="category" value="Drawingwaterways"> waterways
+						<!-- Vegetation, Agriculture, Residential/commercial, Industrial, Community Spaces, Fencelines, waterways -->
+					</div>
 				</div>
 
 			</div>
@@ -85,6 +126,7 @@
 				</div>
 			</div>
 		</div>
+
 
 		<div class="bottom">
 

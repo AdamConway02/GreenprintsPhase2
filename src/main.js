@@ -149,7 +149,6 @@ const DEFAULT_MARKER_RADIUS = 50000;
 			// removes the other subregions if a target is already isolated
 			if (typeof this.otherlayer !== 'undefined') {
 				this.map.removeLayer(this.otherlayer);
-				console.log("removed otherlayers")
 			}
 
 			this.selectedLayer = L.geoJSON(currentRegionInfo, {
@@ -172,7 +171,6 @@ const DEFAULT_MARKER_RADIUS = 50000;
 
 			this.selectedLayer.eachLayer(function (layer) {
 				removesubName = layer.feature.properties.sub_n
-				console.log(removesubName)
 			});
 
 			// removing the isolated layer from the other layers
@@ -218,7 +216,6 @@ const DEFAULT_MARKER_RADIUS = 50000;
 			//check if other layers have been added to the map
 			if (typeof this.otherlayer !== 'undefined') {
 				this.map.removeLayer(this.otherlayer);
-				console.log("removed otherlayers")
 			}
 
 
@@ -267,6 +264,7 @@ const DEFAULT_MARKER_RADIUS = 50000;
 
 		// get the json for all regions
 		getRegions();
+		//end of main
 	}
 
 	/**
@@ -277,6 +275,8 @@ const DEFAULT_MARKER_RADIUS = 50000;
 		this.initMap();
 		this.initEvents();
 		this.initCarto();
+		this.drawingControl();
+
 
 		// this.initData();
 
@@ -296,7 +296,7 @@ const DEFAULT_MARKER_RADIUS = 50000;
 	 * 
 	 */
 	main.prototype.initMap = function () {
-		// draw control allows draing on the map
+		// draw control false diasbles the automatic addition of drawing tool
 		this.map = L.map('mapid', { drawControl: false }).setView([DEFAULT_LAT, DEFAULT_LNG], DEFAULT_ZOOM);
 		this.zoomLevels = {
 			start: this.map.getZoom(),
@@ -359,93 +359,6 @@ const DEFAULT_MARKER_RADIUS = 50000;
 
 		this.map.addControl(searchControl);
 
-		//------------------
-		// Draw control
-		//------------------
-
-		var editableLayers = new L.FeatureGroup();
-		this.map.addLayer(editableLayers);
-
-		// var MyCustomMarker = L.Icon.extend({
-		// 	options: {
-		// 		shadowUrl: null,
-		// 		iconAnchor: new L.Point(12, 12),
-		// 		iconSize: new L.Point(24, 24),
-		// 		// iconUrl: 'link/to/image.png'
-		// 	}
-		// });
-
-		var options = {
-			position: 'bottomright',
-			draw: {
-				polygon: {
-					allowIntersection: false, // Restricts shapes to simple polygons
-					drawError: {
-						color: '#0BE100 ', // Color the shape will turn when intersects
-					},
-					shapeOptions: {
-						color: '#0BE100 '
-					}
-				},
-				polyline:false,
-				circle: false, // Turns off this drawing tool
-				rectangle: false,
-				marker: false,
-				remove: true,
-				circlemarker: false
-			},
-			edit: {
-				featureGroup: editableLayers, //REQUIRED!!
-				// remove: true
-			}
-		};
-		var drawControl = new L.Control.Draw(options);
-		this.map.addControl(drawControl);
-
-		var options2= {
-			position: 'bottomleft',
-			draw: {
-				polygon: {
-					shapeOptions: {
-						color: '#E100D3',
-						showArea: true
-					}
-				},
-				polyline:false,
-				circle: false, // Turns off this drawing tool
-				rectangle: false,
-				marker: false,
-				remove: true,
-				circlemarker: false
-			},
-			edit: {
-				featureGroup: editableLayers, //REQUIRED!!
-			}
-		};
-
-		var drawControl2 = new L.Control.Draw(options2);
-		this.map.addControl(drawControl2);
-
-		this.map.on(L.Draw.Event.CREATED, function (e) {
-			var type = e.layerType,
-				layer = e.layer;
-
-			if (type === 'marker') {
-				layer.bindPopup('A popup!');
-			}
-
-			editableLayers.addLayer(layer);
-		});
-
-		// allows to change what is the function draws
-		drawControl.setDrawingOptions({
-			rectangle: {
-				shapeOptions: {
-					color: '#fffff'
-				}
-			}
-		});
-	
 		// end of init map
 	}
 
@@ -494,14 +407,10 @@ const DEFAULT_MARKER_RADIUS = 50000;
 				//#region Get information about the bioregion should be put in function but doing so breaks functionality
 				//Get information from posts about bioregions
 
-
-
 				var titlePostRegion = this.currentRegionName.replace(/ /g, "-");
 				if (this.currentSubRegionName) {
 					titlePostRegion = this.currentSubRegionName.replace(/ /g, "-");
 				}
-
-
 
 				// the region selected was a bio region 
 				let url = 'https://www.greenprints.org.au/wp-json/wp/v2/posts?categories=39&slug=' + titlePostRegion;
@@ -513,7 +422,6 @@ const DEFAULT_MARKER_RADIUS = 50000;
 					this.detailElement.innerHTML += this.data[titlePostRegion].data
 				} else {
 					this.data[titlePostRegion].loading = true;
-					console.log(url);
 					sendRequest({ method: 'GET', url })
 						.then((result) => {
 							let data = JSON.parse(result);
@@ -544,9 +452,6 @@ const DEFAULT_MARKER_RADIUS = 50000;
 		layer.on({
 			click: (e) => {
 				currentRegionInfo = e.target.feature
-				console.log("region: ", currentRegionInfo)
-
-
 				this.currentRegionName = e.target.feature.properties.n;
 				this.detailElement.innerHTML = '<strong>Bioregion: </strong>' + this.currentRegionName + '<hr/>';
 
@@ -559,7 +464,7 @@ const DEFAULT_MARKER_RADIUS = 50000;
 
 				//Get information from posts about bioregions
 				var titlePostRegion = this.currentRegionName.replace(/ /g, "-");
-				console.log(titlePostRegion)
+				(titlePostRegion)
 				let url = 'https://www.greenprints.org.au/wp-json/wp/v2/posts?categories=39&slug=' + titlePostRegion;
 
 				if (!this.data[titlePostRegion]) this.data[titlePostRegion] = {};
@@ -569,7 +474,7 @@ const DEFAULT_MARKER_RADIUS = 50000;
 					this.detailElement.innerHTML += this.data[titlePostRegion].data
 				} else {
 					this.data[titlePostRegion].loading = true;
-					console.log(url);
+					(url);
 					sendRequest({ method: 'GET', url })
 						.then((result) => {
 							let data = JSON.parse(result);
@@ -596,7 +501,7 @@ const DEFAULT_MARKER_RADIUS = 50000;
 
 			click: (e) => {
 				currentRegionInfo = e.target.feature
-				console.log("subregion: ", currentRegionInfo)
+					("subregion: ", currentRegionInfo)
 
 
 				this.currentRegionName = e.target.feature.properties.n;
@@ -618,9 +523,9 @@ const DEFAULT_MARKER_RADIUS = 50000;
 				var subregiontitle = this.currentSubRegionName.replace(/ /g, '-')
 				let url = ''
 				if (subregiontitle !== '') {
-					console.log("Subregioned")
+					("Subregioned")
 					url = 'https://www.greenprints.org.au/wp-json/wp/v2/posts?categories=39&slug=' + subregiontitle;
-					console.log(url)
+					(url)
 				}
 				if (!this.data[subregiontitle]) this.data[subregiontitle] = {};
 				if (this.data[subregiontitle].loading == true) return;
@@ -654,7 +559,7 @@ const DEFAULT_MARKER_RADIUS = 50000;
 	main.prototype.initCarto = function () {
 		//Add Regions layer
 		this.currentZoom = this.map.getZoom();
-		console.log(this.currentZoom);
+		(this.currentZoom);
 		sendRequest({ method: "GET", url: 'https://www.greenprints.org.au/map-app/regions.json' })
 			.then((data) => this.handleGeoJson(data, this.onEachFeatureRegions.bind(this), {
 				color: '#333',
@@ -685,7 +590,7 @@ const DEFAULT_MARKER_RADIUS = 50000;
 				this.subregions_simple = layer;
 				// This activate on a zoom control
 				if (this.hideSubBioregions) {
-					console.log("hide bioregions")
+					("hide bioregions")
 				} else {
 					if (this.currentZoom > 6) {
 						this.subregions_simple.addTo(this.map)
@@ -728,32 +633,26 @@ const DEFAULT_MARKER_RADIUS = 50000;
 			}))
 			.then((layer) => {
 				this.subregions = layer;
-				console.log('detailed subregions loaded')
+				('detailed subregions loaded')
 				if (this.alwaysShowSubBioregions) this.subregions.addTo(this.map);
 			})
 	}
 
-	//Related to ala data.
-	// I dont see where this is used
-	// main.prototype.initData = function () {
-	// 	let alaRegionsUrl = `https://regions.ala.org.au/regions/regionList?type=Biogeographic regions`;
-
-	// 	sendRequest({ method: "GET", url: alaRegionsUrl })
-	// 		.then((result) => {
-	// 			this.alaRegionsMapping = JSON.parse(result).objects;
-	// 		})
-	// }
-
 	//add event listeners for html DOM elements.
 	//these buttons control the functionality for the checkbox to load and hide bioregions
 	main.prototype.initEvents = function () {
-		document.getElementById("panel-toggle").addEventListener("click", this.panelOpen.bind(this))
-		document.getElementById("modal-close-button").addEventListener("click", this.toggleModal.bind(this))
+		document.getElementById("panel-toggle").addEventListener("click", this.panelOpen.bind(this));
+		document.getElementById("modal-close-button").addEventListener("click", this.toggleModal.bind(this));
 		document.getElementById("show-bioregions").addEventListener("click", this.toggleBioregion.bind(this));
 		document.getElementById("show-subregions").addEventListener("click", this.toggleSubBioregion.bind(this));
 		document.getElementById("hide-bioregions").addEventListener("click", this.hideBioregion.bind(this));
 		document.getElementById("hide-subregions").addEventListener("click", this.hideSubBioregion.bind(this));
+		// drawing tool controll
+		// document.getElementById("Drawing-toggle").addEventListener("click", this.drawingOpen.bind(this));
 	}
+
+
+
 
 	//fullscreen styling 
 	main.prototype.fullscreen = function () {
@@ -807,7 +706,7 @@ const DEFAULT_MARKER_RADIUS = 50000;
 		this.map.setView([DEFAULT_LAT, DEFAULT_LNG], DEFAULT_ZOOM);
 	}
 
-	//Toggle side panel
+	//Toggle layer select panel
 	main.prototype.panelOpen = function () {
 		//Probably store these as states.
 		let toggle = document.getElementById("panel-toggle");
@@ -835,8 +734,8 @@ const DEFAULT_MARKER_RADIUS = 50000;
 	//toggle function that gets called from each toggle
 	main.prototype.toggleLayer = function () {
 		if (!this.regions || (!this.subregions_simple && !this.subregion)) return;
-		console.log(`alwaysShowSubBioregions: ${this.alwaysShowSubBioregions}`)
-		console.log(`alwaysShowBioregions: ${this.alwaysShowBiorsegions}`)
+		// (`alwaysShowSubBioregions: ${this.alwaysShowSubBioregions}`)
+		// (`alwaysShowBioregions: ${this.alwaysShowBiorsegions}`)
 		if (this.alwaysShowSubBioregions) this.subregions_simple ? this.subregions_simple.addTo(this.map) : this.subregions.addTo(this.map);
 		if (this.alwaysShowBioregions) this.regions.addTo(this.map);
 		if (!this.alwaysShowSubBioregions && this.currentZoom <= 6) this.map.removeLayer(this.subregions_simple ? this.subregions_simple : this.subregions);
@@ -877,6 +776,138 @@ const DEFAULT_MARKER_RADIUS = 50000;
 		}
 	}
 
+
+	main.prototype.drawingControl = function () {
+		//------------------
+		// Draw control
+		//------------------
+
+		// Add editable layers to the map
+		var editableLayers = new L.FeatureGroup();
+		this.map.addLayer(editableLayers);
+
+		// set the options for each drawing toolbar
+		var vegetationcolor = '#0BE100'
+		var Vegetationoptions = {
+			position: 'bottomleft',
+			draw: {
+				polygon: {
+					// allowIntersection: false, // Restricts shapes to simple polygons
+					// drawError: {
+					// 	color: '#0BE100 ', // Color the shape will turn when intersects
+					// },
+					shapeOptions: {
+						color: vegetationcolor
+					}
+				},
+				polyline: false,
+				circle: false, // Turns off this drawing tool
+				rectangle: false,
+				marker: false,
+				remove: true,
+				circlemarker: false
+			},
+			edit: {
+				featureGroup: editableLayers, //REQUIRED!!
+				// remove: true
+			}
+		};
+
+		var watercolor = '#0800ff'
+		var Wateroptions= {
+			position: 'bottomleft',
+			draw: {
+				polygon: {
+					shapeOptions: {
+						color: watercolor,
+						showArea: true
+					}
+				},
+				polyline:false,
+				circle: false, // Turns off this drawing tool
+				rectangle: false,
+				marker: false,
+				remove: true,
+				circlemarker: false
+			},
+			edit: {
+				featureGroup: editableLayers, //REQUIRED!!
+			}
+		};
+		var citycolor = '#e5ff00'
+		var Cityoptions= {
+			position: 'bottomleft',
+			draw: {
+				polygon: {
+					shapeOptions: {
+						color: citycolor,
+						showArea: true
+					}
+				},
+				polyline:false,
+				circle: false, // Turns off this drawing tool
+				rectangle: false,
+				marker: false,
+				remove: true,
+				circlemarker: false
+			},
+			edit: {
+				featureGroup: editableLayers, //REQUIRED!!
+			}
+		};
+
+		// create the toolbar with the assigned option
+		var Vegetationcontrol = new L.Control.Draw(Vegetationoptions);
+		//update these
+		var Agriculturecontrol = new L.Control.Draw(Wateroptions);
+		var Citycontrol = new L.Control.Draw(Cityoptions);
+
+
+		// get the buttons from the page
+		var Deletebutton = document.getElementById('DrawingNone');
+		var VegetationButton = document.getElementById('DrawingVegetation');
+		var AgricultureButton = document.getElementById('DrawingAgriculture');
+		var CityButton = document.getElementById('DrawingCity');
+
+
+		// get correct refrence to this.map to use in functions if this is removed cannot get correct refrence to map
+		var mapper = this.map
+
+		//create function to delete all toolbars
+		function deletetoolbars() {
+			mapper.removeControl(Vegetationcontrol)
+			mapper.removeControl(Agriculturecontrol)
+			mapper.removeControl(Citycontrol)
+		}
+		Deletebutton.onclick = function () {
+			deletetoolbars();
+		}
+		VegetationButton.onclick = function () {
+			deletetoolbars();
+			mapper.addControl(Vegetationcontrol);
+		}
+		AgricultureButton.onclick = function () {
+			deletetoolbars();
+			mapper.addControl(Agriculturecontrol);
+		}
+		// CityButton.onclick = function () {
+		// 	deletetoolbars();
+		// 	mapper.addControl(Citycontrol);
+		// }
+
+
+		this.map.on(L.Draw.Event.CREATED, function (e) {
+			var type = e.layerType,
+				layer = e.layer;
+
+			// Let users name the popup
+			if (type === 'marker') {
+				layer.bindPopup('A popup!');
+			}
+
+			editableLayers.addLayer(layer);
+		});
+	}
 
 	return new main();
 })().init();
