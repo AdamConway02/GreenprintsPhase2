@@ -501,9 +501,6 @@ const DEFAULT_MARKER_RADIUS = 50000;
 
 			click: (e) => {
 				currentRegionInfo = e.target.feature
-					("subregion: ", currentRegionInfo)
-
-
 				this.currentRegionName = e.target.feature.properties.n;
 				this.currentSubRegionName = e.target.feature.properties.sub_n;
 				this.detailElement.innerHTML = '<strong>Bioregion: </strong>' + this.currentRegionName + '<hr/>';
@@ -787,8 +784,8 @@ const DEFAULT_MARKER_RADIUS = 50000;
 		this.map.addLayer(editableLayers);
 
 		// set the options for each drawing toolbar
-		var vegetationcolor = '#0BE100'
-		var Vegetationoptions = {
+		var vegetationcolor = '#0BE100' // green
+		var vegetationoptions = {
 			position: 'bottomleft',
 			draw: {
 				polygon: {
@@ -812,18 +809,17 @@ const DEFAULT_MARKER_RADIUS = 50000;
 				// remove: true
 			}
 		};
-
-		var watercolor = '#0800ff'
-		var Wateroptions= {
+		var agriculturecolor = '#ffb366' // light orange
+		var agriculturoptions = {
 			position: 'bottomleft',
 			draw: {
 				polygon: {
 					shapeOptions: {
-						color: watercolor,
+						color: agriculturecolor,
 						showArea: true
 					}
 				},
-				polyline:false,
+				polyline: false,
 				circle: false, // Turns off this drawing tool
 				rectangle: false,
 				marker: false,
@@ -834,18 +830,110 @@ const DEFAULT_MARKER_RADIUS = 50000;
 				featureGroup: editableLayers, //REQUIRED!!
 			}
 		};
-		var citycolor = '#e5ff00'
-		var Cityoptions= {
+		var residentailcolor = '#ff0000' // red
+		var residentialoptions = {
 			position: 'bottomleft',
 			draw: {
 				polygon: {
 					shapeOptions: {
-						color: citycolor,
+						color: residentailcolor,
 						showArea: true
 					}
 				},
-				polyline:false,
+				polyline: false,
 				circle: false, // Turns off this drawing tool
+				rectangle: false,
+				marker: false,
+				remove: true,
+				circlemarker: false
+			},
+			edit: {
+				featureGroup: editableLayers, //REQUIRED!!
+			}
+		};
+		var industrialcolor = '#ad7338'//brown
+		var industrialoptions = {
+			position: 'bottomleft',
+			draw: {
+				polygon: {
+					shapeOptions: {
+						color: industrialcolor,
+						showArea: true
+					}
+				},
+				polyline: false,
+				circle: false, // Turns off this drawing tool
+				rectangle: false,
+				marker: false,
+				remove: true,
+				circlemarker: false
+			},
+			edit: {
+				featureGroup: editableLayers, //REQUIRED!!
+			}
+		};
+		var communitycolor = "#b3b3b3" //grey
+		var communityoptions = {
+			position: 'bottomleft',
+			draw: {
+				polygon: {
+					shapeOptions: {
+						color: communitycolor,
+						showArea: true
+					}
+				},
+				polyline: false,
+				circle: false, // Turns off this drawing tool
+				rectangle: false,
+				marker: false,
+				remove: true,
+				circlemarker: false
+			},
+			edit: {
+				featureGroup: editableLayers, //REQUIRED!!
+			}
+		};
+		var fencelinescolor = "#ff4dc4" // pink
+		var fencelinesoptions = {
+			position: 'bottomleft',
+			draw: {
+				polyline: {
+					shapeOptions: {
+						color: fencelinescolor,
+					}
+				},
+				polygon: {
+					shapeOptions: {
+						color: fencelinescolor,
+						showArea: true
+					}
+				},
+				circle: false, 
+				rectangle: false,
+				marker: false,
+				remove: true,
+				circlemarker: false
+			},
+			edit: {
+				featureGroup: editableLayers, //REQUIRED!!
+			}
+		};
+		var waterwaycolor = "#3333cc" //blue
+		var waterwayoptions = {
+			position: 'bottomleft',
+			draw: {
+				polyline: {
+					shapeOptions: {
+						color: waterwaycolor,
+					}
+				},
+				polygon: {
+					shapeOptions: {
+						color: waterwaycolor,
+						showArea: true
+					}
+				},
+				circle: false,
 				rectangle: false,
 				marker: false,
 				remove: true,
@@ -857,50 +945,74 @@ const DEFAULT_MARKER_RADIUS = 50000;
 		};
 
 		// create the toolbar with the assigned option
-		var Vegetationcontrol = new L.Control.Draw(Vegetationoptions);
-		//update these
-		var Agriculturecontrol = new L.Control.Draw(Wateroptions);
-		var Citycontrol = new L.Control.Draw(Cityoptions);
+		var Vegetationcontrol = new L.Control.Draw(vegetationoptions);
+		var Agriculturecontrol = new L.Control.Draw(agriculturoptions);
+		var Residentailcontrol = new L.Control.Draw(residentialoptions);
+		var Industrialcontrol = new L.Control.Draw(industrialoptions);
+		var Communitycontrol = new L.Control.Draw(communityoptions);
+		var Fencelinecontrol = new L.Control.Draw(fencelinesoptions);
+		var Waterwaycontrol = new L.Control.Draw(waterwayoptions);
 
 
-		// get the buttons from the page
-		var Deletebutton = document.getElementById('DrawingNone');
-		var VegetationButton = document.getElementById('DrawingVegetation');
-		var AgricultureButton = document.getElementById('DrawingAgriculture');
-		var CityButton = document.getElementById('DrawingCity');
+
 
 
 		// get correct refrence to this.map to use in functions if this is removed cannot get correct refrence to map
 		var mapper = this.map
 
 		//create function to delete all toolbars
+		var controls  = [Vegetationcontrol, Agriculturecontrol,Residentailcontrol,Industrialcontrol,Communitycontrol,Fencelinecontrol,Waterwaycontrol];
 		function deletetoolbars() {
-			mapper.removeControl(Vegetationcontrol)
-			mapper.removeControl(Agriculturecontrol)
-			mapper.removeControl(Citycontrol)
+			for (var i =0; i <controls.length; i++ ){
+				mapper.removeControl(controls[i]);
+			}
 		}
-		Deletebutton.onclick = function () {
-			deletetoolbars();
+
+		//drawing selector 
+		var sel = document.getElementById('Selector');
+		var selected = sel.value
+		sel.onchange = function () {
+			selected = sel.value
+			console.log(selected);
+			if (selected == "DrawingNone") {
+				deletetoolbars();
+			}
+			else if (selected == "Vegetation") {
+				deletetoolbars();
+				mapper.addControl(Vegetationcontrol);
+			}
+			else if (selected == "Agriculture") {
+				deletetoolbars();
+				mapper.addControl(Agriculturecontrol);
+			}
+			else if (selected == "Residential") {
+				deletetoolbars();
+				mapper.addControl(Residentailcontrol);
+			}
+			else if (selected == "Industrial") {
+				deletetoolbars();
+				mapper.addControl(Industrialcontrol);
+			}
+			else if (selected == "Community") {
+				deletetoolbars();
+				mapper.addControl(Communitycontrol);
+			}
+			else if (selected == "Fenceline") {
+				deletetoolbars();
+				mapper.addControl(Fencelinecontrol);
+			}
+			else if (selected == "Waterway") {
+				deletetoolbars();
+				mapper.addControl(Waterwaycontrol);
+			}
 		}
-		VegetationButton.onclick = function () {
-			deletetoolbars();
-			mapper.addControl(Vegetationcontrol);
-		}
-		AgricultureButton.onclick = function () {
-			deletetoolbars();
-			mapper.addControl(Agriculturecontrol);
-		}
-		// CityButton.onclick = function () {
-		// 	deletetoolbars();
-		// 	mapper.addControl(Citycontrol);
-		// }
 
 
 		this.map.on(L.Draw.Event.CREATED, function (e) {
 			var type = e.layerType,
 				layer = e.layer;
 
-			// Let users name the popup
+			//TODO Let users name the popup
 			if (type === 'marker') {
 				layer.bindPopup('A popup!');
 			}

@@ -412,9 +412,4 @@ button.easy-button-button.leaflet-bar-part.leaflet-interactive.unnamed-state-act
   padding: 0;
 }
 
-.Drawingselector{
-  width: 100%;
-  height: 10%;
-  outline: 2px dashed blue;
-}
-
+/*Drawing tool*/

@@ -68,52 +68,23 @@
 									<input type="checkbox" id="hide-subregions">
 									<label for="subregions">hide sub-bioregions</label>
 								</li>
-								<!-- <li>
-									<input type="checkbox" id="Show-foresty">
-									<label for="forest">Show forests</label>
-								</li> -->
 							</ul>
 						</div>
 					</div>
 
-
-					<!-- Drawing tool -->
-					<!-- <button id="drawing-toggle" class="drawing-toggle">
-						<span></span>
-					</button> -->
-
-
-					<!-- <div id="drawing-side" class="drawing-side">
-						<div class="row">
-							<div class="col-10">
-								<h5 class="ml-2 mr-2"></h5>
-							</div>
-						</div>
-						<div id="draw controls">
-							<ul>
-								<li>
-									<input type="checkbox" checked id="Show-water">
-									<label for="Drawing">Water</label>
-								</li>
-							</ul>
-						</div>
-					</div> -->
-
-					<!-- //------------------------- -->
-
-
-
 					<div id="mapid"></div>
 					<div id="Drawingselector" class="Drawingselector">
-						<input type="radio" id="DrawingNone" name="category" value="DrawingNone" checked="checked"> No Toolbar
-						<input type="radio" id="DrawingVegetation" name="category" value="DrawingVegetation" > Vegetation
-						<input type="radio" id="DrawingAgriculture" name="category" value="DrawingAgriculture"> Agriculture
-						<input type="radio" id="DrawingResidential" name="category" value="DrawingResidential"> Residential
-						<input type="radio" id="DrawingIndustrial" name="category" value="DrawingIndustrial"> Industrial
-						<input type="radio" id="DrawingCommunity" name="category" value="DrawingCommunity"> Community
-						<input type="radio" id="DrawingFencelines" name="category" value="DrawingFencelines"> Fencelines
-						<input type="radio" id="Drawingwaterways" name="category" value="Drawingwaterways"> waterways
-						<!-- Vegetation, Agriculture, Residential/commercial, Industrial, Community Spaces, Fencelines, waterways -->
+						<select id='Selector'>
+							<option id="DrawingNone" value="DrawingNone">No Drawing tool selected</option>
+							<option id="Vegetation" value="Vegetation">Vegetation</option> <!-- Green -->
+							<option id="Agriculture" value="Agriculture">Agriculture</option> <!-- Light orange matching grazing modified pastuers-->
+							<option id="Residential" value="Residential">Residential</option> <!-- red -->
+							<option id="Industrial" value="Industrial">Industrial</option> <!-- brown -->
+							<option id="Community" value="Community">Community</option> <!-- Grey matching rural residentail -->
+							<option id="Fenceline" value="Fenceline">Fenceline</option> <!-- pink intensive  -->
+							<option id="Waterway" value="Waterway">Waterway</option> <!-- Blue -->
+
+						</select>
 					</div>
 				</div>
 
