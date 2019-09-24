@@ -27,6 +27,9 @@ const DEFAULT_MARKER_RADIUS = 50000;
 	var selectedLayer;
 	// boolean to tell if a subregion is isolated
 	var isolatedsubregion = false;
+	// all the layers for drawing
+	// CAN this be modified to control patterns
+	var editableLayers = new L.FeatureGroup();
 
 	//-----------------------------------------------------
 
@@ -124,6 +127,8 @@ const DEFAULT_MARKER_RADIUS = 50000;
 
 			this.removeMarker();
 			// reinitialise the map
+
+
 			this.initCarto();
 
 		})
@@ -190,6 +195,10 @@ const DEFAULT_MARKER_RADIUS = 50000;
 			this.removeMarker();
 			// disable the automatic layers for zoom
 			disablezoomlayer = true;
+
+			if (editableLayers) {
+				editableLayers.bringToFront();
+			}
 		})
 
 		//------------------
@@ -260,6 +269,10 @@ const DEFAULT_MARKER_RADIUS = 50000;
 			this.removeMarker();
 			// disable the automatic zoom controls
 			disablezoomlayer = true;
+
+			if (editableLayers) {
+				editableLayers.bringToFront();
+			}
 		});
 
 		// get the json for all regions
@@ -276,6 +289,7 @@ const DEFAULT_MARKER_RADIUS = 50000;
 		this.initEvents();
 		this.initCarto();
 		this.drawingControl();
+		// this.printControl();
 
 
 		// this.initData();
@@ -633,6 +647,10 @@ const DEFAULT_MARKER_RADIUS = 50000;
 				('detailed subregions loaded')
 				if (this.alwaysShowSubBioregions) this.subregions.addTo(this.map);
 			})
+
+		if (editableLayers) {
+			editableLayers.bringToFront();
+		}
 	}
 
 	//add event listeners for html DOM elements.
@@ -766,12 +784,29 @@ const DEFAULT_MARKER_RADIUS = 50000;
 			this.subregions_simple ? this.subregions_simple.addTo(this.map) : this.subregions.addTo(this.map)
 		}
 	}
-	// function tp remove the marker from the map
+	// function to remove the marker from the map
 	main.prototype.removeMarker = function () {
 		if (this.marker != undefined) {
 			this.map.removeLayer(this.marker);
 		}
 	}
+
+	// main.prototype.printControl = function () {
+	// 	var printProvider = this.L.print.provider({
+	// 		method: 'GET',
+	// 		url: ' http://path/to/mapfish/print',
+	// 		autoLoad: true,
+	// 		dpi: 90
+	// 	});
+
+	// 	var printControl = L.control.print({
+	// 		provider: printProvider
+	// 	});
+
+
+	// 	this.map.addControl(printControl);
+	// }
+
 
 
 	main.prototype.drawingControl = function () {
@@ -779,13 +814,13 @@ const DEFAULT_MARKER_RADIUS = 50000;
 		// Draw control
 		//------------------
 
+		// var editableLayers = new L.FeatureGroup();
 		// Add editable layers to the map
-		var editableLayers = new L.FeatureGroup();
 		this.map.addLayer(editableLayers);
 
 		// set the options for each drawing toolbar
-		var vegetationcolor = '#0BE100' // green
-		var vegetationoptions = {
+		var natureconservationcolor = "#936bc4" // Purple
+		var natureconservationoptions = {
 			position: 'bottomleft',
 			draw: {
 				polygon: {
@@ -794,7 +829,7 @@ const DEFAULT_MARKER_RADIUS = 50000;
 					// 	color: '#0BE100 ', // Color the shape will turn when intersects
 					// },
 					shapeOptions: {
-						color: vegetationcolor
+						color: natureconservationcolor
 					}
 				},
 				polyline: false,
@@ -809,13 +844,13 @@ const DEFAULT_MARKER_RADIUS = 50000;
 				// remove: true
 			}
 		};
-		var agriculturecolor = '#ffb366' // light orange
-		var agriculturoptions = {
+		var Other_protected_areas_color = '#c5c1fe' // light purple
+		var Other_protected_areas_options = {
 			position: 'bottomleft',
 			draw: {
 				polygon: {
 					shapeOptions: {
-						color: agriculturecolor,
+						color: Other_protected_areas_color,
 						showArea: true
 					}
 				},
@@ -830,13 +865,13 @@ const DEFAULT_MARKER_RADIUS = 50000;
 				featureGroup: editableLayers, //REQUIRED!!
 			}
 		};
-		var residentailcolor = '#ff0000' // red
-		var residentialoptions = {
+		var Minimal_use_color = '#dd87de' // purple/pinkish
+		var Minimal_use_options = {
 			position: 'bottomleft',
 			draw: {
 				polygon: {
 					shapeOptions: {
-						color: residentailcolor,
+						color: Minimal_use_color,
 						showArea: true
 					}
 				},
@@ -851,18 +886,17 @@ const DEFAULT_MARKER_RADIUS = 50000;
 				featureGroup: editableLayers, //REQUIRED!!
 			}
 		};
-		var industrialcolor = '#ad7338'//brown
-		var industrialoptions = {
+		var Grazing_native_vegetation_options = {
 			position: 'bottomleft',
 			draw: {
 				polygon: {
 					shapeOptions: {
-						color: industrialcolor,
+						color: "#fffbe7",
 						showArea: true
 					}
 				},
 				polyline: false,
-				circle: false, // Turns off this drawing tool
+				circle: false,
 				rectangle: false,
 				marker: false,
 				remove: true,
@@ -872,18 +906,57 @@ const DEFAULT_MARKER_RADIUS = 50000;
 				featureGroup: editableLayers, //REQUIRED!!
 			}
 		};
-		var communitycolor = "#b3b3b3" //grey
-		var communityoptions = {
+		var Production_forestry_options = {
 			position: 'bottomleft',
 			draw: {
 				polygon: {
 					shapeOptions: {
-						color: communitycolor,
+						color: "#31874a",
 						showArea: true
 					}
 				},
 				polyline: false,
-				circle: false, // Turns off this drawing tool
+				circle: false,
+				rectangle: false,
+				marker: false,
+				remove: true,
+				circlemarker: false
+			},
+			edit: {
+				featureGroup: editableLayers,
+			}
+		};
+		var Grazing_modified_pastures_options = {
+			position: 'bottomleft',
+			draw: {
+				polygon: {
+					shapeOptions: {
+						color: "#fed082",
+						showArea: true
+					}
+				},
+				polyline: false,
+				circle: false,
+				rectangle: false,
+				marker: false,
+				remove: true,
+				circlemarker: false
+			},
+			edit: {
+				featureGroup: editableLayers,
+			}
+		};
+		var Plantation_forestry_options = {
+			position: 'bottomleft',
+			draw: {
+				polygon: {
+					shapeOptions: {
+						color: "#abfdb3",
+						showArea: true
+					}
+				},
+				polyline: false,
+				circle: false,
 				rectangle: false,
 				marker: false,
 				remove: true,
@@ -893,22 +966,17 @@ const DEFAULT_MARKER_RADIUS = 50000;
 				featureGroup: editableLayers, //REQUIRED!!
 			}
 		};
-		var fencelinescolor = "#ff4dc4" // pink
-		var fencelinesoptions = {
+		var Dryland_cropping_options = {
 			position: 'bottomleft',
 			draw: {
-				polyline: {
-					shapeOptions: {
-						color: fencelinescolor,
-					}
-				},
 				polygon: {
 					shapeOptions: {
-						color: fencelinescolor,
+						color: "#fdfa31",
 						showArea: true
 					}
 				},
-				circle: false, 
+				polyline: false,
+				circle: false,
 				rectangle: false,
 				marker: false,
 				remove: true,
@@ -918,21 +986,176 @@ const DEFAULT_MARKER_RADIUS = 50000;
 				featureGroup: editableLayers, //REQUIRED!!
 			}
 		};
-		var waterwaycolor = "#3333cc" //blue
-		var waterwayoptions = {
+		var Dryland_horticulture_options = {
 			position: 'bottomleft',
 			draw: {
-				polyline: {
-					shapeOptions: {
-						color: waterwaycolor,
-					}
-				},
 				polygon: {
 					shapeOptions: {
-						color: waterwaycolor,
+						color: "#ac867b",
 						showArea: true
 					}
 				},
+				polyline: false,
+				circle: false,
+				rectangle: false,
+				marker: false,
+				remove: true,
+				circlemarker: false
+			},
+			edit: {
+				featureGroup: editableLayers, //REQUIRED!!
+			}
+		};
+		var Land_in_transition_options = {
+			position: 'bottomleft',
+			draw: {
+				polygon: {
+					shapeOptions: {
+						color: "#000000",
+						showArea: true
+					}
+				},
+				polyline: false,
+				circle: false,
+				rectangle: false,
+				marker: false,
+				remove: true,
+				circlemarker: false
+			},
+			edit: {
+				featureGroup: editableLayers, //REQUIRED!!
+			}
+		};
+		var Irrigate_pastures_options = {
+			position: 'bottomleft',
+			draw: {
+				polygon: {
+					shapeOptions: {
+						color: "#fda621",
+						showArea: true
+					}
+				},
+				polyline: false,
+				circle: false,
+				rectangle: false,
+				marker: false,
+				remove: true,
+				circlemarker: false
+			},
+			edit: {
+				featureGroup: editableLayers, //REQUIRED!!
+			}
+		};
+		var Irrigate_cropping_options = {
+			position: 'bottomleft',
+			draw: {
+				polygon: {
+					shapeOptions: {
+						color: "#c9b45b",
+						showArea: true
+					}
+				},
+				polyline: false,
+				circle: false,
+				rectangle: false,
+				marker: false,
+				remove: true,
+				circlemarker: false
+			},
+			edit: {
+				featureGroup: editableLayers, //REQUIRED!!
+			}
+		};
+		var Urban_intensive_uses_options = {
+			position: 'bottomleft',
+			draw: {
+				polygon: {
+					shapeOptions: {
+						color: "#fe000d",
+						showArea: true
+					}
+				},
+				polyline: false,
+				circle: false,
+				rectangle: false,
+				marker: false,
+				remove: true,
+				circlemarker: false
+			},
+			edit: {
+				featureGroup: editableLayers, //REQUIRED!!
+			}
+		};
+		var Intensive_production_options = {
+			position: 'bottomleft',
+			draw: {
+				polygon: {
+					shapeOptions: {
+						color: "#ffc6bf",
+						showArea: true
+					}
+				},
+				polyline: false,
+				circle: false,
+				rectangle: false,
+				marker: false,
+				remove: true,
+				circlemarker: false
+			},
+			edit: {
+				featureGroup: editableLayers, //REQUIRED!!
+			}
+		};
+		var Rural_residential_options = {
+			position: 'bottomleft',
+			draw: {
+				polygon: {
+					shapeOptions: {
+						color: "#b1b1b1",
+						showArea: true
+					}
+				},
+				polyline: false,
+				circle: false,
+				rectangle: false,
+				marker: false,
+				remove: true,
+				circlemarker: false
+			},
+			edit: {
+				featureGroup: editableLayers, //REQUIRED!!
+			}
+		};
+		var Mining_and_waste_options = {
+			position: 'bottomleft',
+			draw: {
+				polygon: {
+					shapeOptions: {
+						color: "#48808d",
+						showArea: true
+					}
+				},
+				polyline: false,
+				circle: false,
+				rectangle: false,
+				marker: false,
+				remove: true,
+				circlemarker: false
+			},
+			edit: {
+				featureGroup: editableLayers, //REQUIRED!!
+			}
+		};
+		var Water_options = {
+			position: 'bottomleft',
+			draw: {
+				polygon: {
+					shapeOptions: {
+						color: "#022cfc",
+						showArea: true
+					}
+				},
+				polyline: false,
 				circle: false,
 				rectangle: false,
 				marker: false,
@@ -945,25 +1168,42 @@ const DEFAULT_MARKER_RADIUS = 50000;
 		};
 
 		// create the toolbar with the assigned option
-		var Vegetationcontrol = new L.Control.Draw(vegetationoptions);
-		var Agriculturecontrol = new L.Control.Draw(agriculturoptions);
-		var Residentailcontrol = new L.Control.Draw(residentialoptions);
-		var Industrialcontrol = new L.Control.Draw(industrialoptions);
-		var Communitycontrol = new L.Control.Draw(communityoptions);
-		var Fencelinecontrol = new L.Control.Draw(fencelinesoptions);
-		var Waterwaycontrol = new L.Control.Draw(waterwayoptions);
-
-
-
-
+		var natureconservationcontrol = new L.Control.Draw(natureconservationoptions);
+		var Other_protected_areas_control = new L.Control.Draw(Other_protected_areas_options);
+		var Minimal_use_control = new L.Control.Draw(Minimal_use_options);
+		var Grazing_native_vegetation_control = new L.Control.Draw(Grazing_native_vegetation_options);
+		var Production_forestry_control = new L.Control.Draw(Production_forestry_options);
+		var Grazing_modified_pastures_control = new L.Control.Draw(Grazing_modified_pastures_options);
+		var Plantation_forestry_control = new L.Control.Draw(Plantation_forestry_options);
+		var Dryland_cropping_control = new L.Control.Draw(Dryland_cropping_options);
+		var Dryland_horticulture_control = new L.Control.Draw(Dryland_horticulture_options);
+		var Land_in_transition_control = new L.Control.Draw(Land_in_transition_options);
+		var Irrigate_pastures_control = new L.Control.Draw(Irrigate_pastures_options);
+		var Irrigate_cropping_control = new L.Control.Draw(Irrigate_cropping_options);
+		var Urban_intensive_uses_control = new L.Control.Draw(Urban_intensive_uses_options);
+		var Intensive_production_control = new L.Control.Draw(Intensive_production_options);
+		var Rural_residential_control = new L.Control.Draw(Rural_residential_options);
+		var Mining_and_waste_control = new L.Control.Draw(Mining_and_waste_options);
+		var Water_control = new L.Control.Draw(Water_options);
 
 		// get correct refrence to this.map to use in functions if this is removed cannot get correct refrence to map
 		var mapper = this.map
 
 		//create function to delete all toolbars
-		var controls  = [Vegetationcontrol, Agriculturecontrol,Residentailcontrol,Industrialcontrol,Communitycontrol,Fencelinecontrol,Waterwaycontrol];
+		var controls = [
+			natureconservationcontrol, Other_protected_areas_control,
+			Minimal_use_control, Grazing_native_vegetation_control,
+			Production_forestry_control, Grazing_modified_pastures_control,
+			Plantation_forestry_control, Dryland_cropping_control,
+			Dryland_horticulture_control, Land_in_transition_control,
+			Irrigate_pastures_control, Irrigate_cropping_control,
+			Urban_intensive_uses_control, Intensive_production_control,
+			Rural_residential_control, Mining_and_waste_control,
+			Water_control
+		];
+
 		function deletetoolbars() {
-			for (var i =0; i <controls.length; i++ ){
+			for (var i = 0; i < controls.length; i++) {
 				mapper.removeControl(controls[i]);
 			}
 		}
@@ -971,42 +1211,84 @@ const DEFAULT_MARKER_RADIUS = 50000;
 		//drawing selector 
 		var sel = document.getElementById('Selector');
 		var selected = sel.value
-		sel.onchange = function () {
-			selected = sel.value
-			console.log(selected);
-			if (selected == "DrawingNone") {
-				deletetoolbars();
-			}
-			else if (selected == "Vegetation") {
-				deletetoolbars();
-				mapper.addControl(Vegetationcontrol);
-			}
-			else if (selected == "Agriculture") {
-				deletetoolbars();
-				mapper.addControl(Agriculturecontrol);
-			}
-			else if (selected == "Residential") {
-				deletetoolbars();
-				mapper.addControl(Residentailcontrol);
-			}
-			else if (selected == "Industrial") {
-				deletetoolbars();
-				mapper.addControl(Industrialcontrol);
-			}
-			else if (selected == "Community") {
-				deletetoolbars();
-				mapper.addControl(Communitycontrol);
-			}
-			else if (selected == "Fenceline") {
-				deletetoolbars();
-				mapper.addControl(Fencelinecontrol);
-			}
-			else if (selected == "Waterway") {
-				deletetoolbars();
-				mapper.addControl(Waterwaycontrol);
-			}
-		}
 
+		sel.onchange = function () {
+			selected = sel.value;
+			switch (selected) {
+				case "DrawingNone":
+					deletetoolbars();
+					break;
+				case "Nature_conservation":
+					deletetoolbars();
+					mapper.addControl(natureconservationcontrol);
+					break;
+				case "Other_protected_areas":
+					deletetoolbars();
+					mapper.addControl(Other_protected_areas_control);
+					break;
+				case "Minimal_use":
+					deletetoolbars();
+					mapper.addControl(Minimal_use_control);
+					break;
+				case "Grazing_native_vegetation":
+					deletetoolbars();
+					mapper.addControl(Grazing_native_vegetation_control);
+					break;
+				case "Production_forestry":
+					deletetoolbars();
+					mapper.addControl(Production_forestry_control);
+					break;
+				case "Grazing_modified_pastures":
+					deletetoolbars();
+					mapper.addControl(Grazing_modified_pastures_control);
+					break;
+				case "Plantation_forestry":
+					deletetoolbars();
+					mapper.addControl(Plantation_forestry_control);
+					break;
+				case "Dryland_cropping":
+					deletetoolbars();
+					mapper.addControl(Dryland_cropping_control);
+					break;
+				case "Dryland_horticulture":
+					deletetoolbars();
+					mapper.addControl(Dryland_horticulture_control);
+					break;
+				case "Land_in_transition":
+					deletetoolbars();
+					mapper.addControl(Land_in_transition_control);
+					break;
+				case "Irrigate_pastures":
+					deletetoolbars();
+					mapper.addControl(Irrigate_pastures_control);
+					break;
+				case "Irrigate_cropping":
+					deletetoolbars();
+					mapper.addControl(Irrigate_cropping_control);
+					break;
+				case "Urban_intensive_uses":
+					deletetoolbars();
+					mapper.addControl(Urban_intensive_uses_control);
+					break;
+				case "Intensive_production":
+					deletetoolbars();
+					mapper.addControl(Intensive_production_control);
+					break;
+				case "Rural_residential":
+					deletetoolbars();
+					mapper.addControl(Rural_residential_control);
+					break;
+				case "Mining_and_waste":
+					deletetoolbars();
+					mapper.addControl(Mining_and_waste_control);
+					break;
+				case "Water":
+					deletetoolbars();
+					mapper.addControl(Water_control);
+					break;
+			}
+
+		}
 
 		this.map.on(L.Draw.Event.CREATED, function (e) {
 			var type = e.layerType,
@@ -1018,6 +1300,9 @@ const DEFAULT_MARKER_RADIUS = 50000;
 			}
 
 			editableLayers.addLayer(layer);
+			if (editableLayers) {
+				editableLayers.bringToFront();
+			}
 		});
 	}
 
