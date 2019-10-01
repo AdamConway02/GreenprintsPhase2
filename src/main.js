@@ -289,6 +289,7 @@ const DEFAULT_MARKER_RADIUS = 50000;
 		this.initEvents();
 		this.initCarto();
 		this.drawingControl();
+		this.exportjson();
 		// this.printControl();
 
 
@@ -1304,6 +1305,30 @@ const DEFAULT_MARKER_RADIUS = 50000;
 				editableLayers.bringToFront();
 			}
 		});
+	}
+
+	main.prototype.exportjson = function () {
+
+
+		var save = document.getElementById('save-button');
+
+		save.onclick = function () {
+			console.log("save button pressed");
+			var json = editableLayers.toGeoJSON();
+
+			let dataStr = JSON.stringify(json);
+			let dataUri = 'data:application/json;charset=utf-8,' + encodeURIComponent(dataStr);
+
+			let exportFileDefaultName = 'DrawnFeatures.json';
+
+			let linkElement = document.createElement('a');
+			linkElement.setAttribute('href', dataUri);
+			linkElement.setAttribute('download', exportFileDefaultName);
+			// required for firefox download
+			document.body.appendChild(linkElement);
+			linkElement.click();
+			document.body.removeChild(link);
+		}
 	}
 
 	return new main();
