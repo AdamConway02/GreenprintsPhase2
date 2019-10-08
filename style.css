@@ -413,8 +413,8 @@ button.easy-button-button.leaflet-bar-part.leaflet-interactive.unnamed-state-act
 }
 
 #save-button {
-  /* position: absolute; */
-  position: relative;
+  position: absolute;
+  /* position: relative; */
   left: 12px;
   padding: 9px;
   bottom: 135px;

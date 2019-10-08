@@ -1,0 +1,15 @@
+cPanel
+go to the url
+->https://www.greenprints.org.au:2083/
+this is the control panel for the webpage
+
+Get Login Details from Michelle or James
+(AELA)
+
+
+
+open the file manager then under the left side go public-html > map-app
+This hold all the information about the map. 
+When updating the javascript file open the dist and replace the bundle file with your own bundle JS.
+
+To update html the Head.php and index.php file must be updated to include any changes to the html structure.
