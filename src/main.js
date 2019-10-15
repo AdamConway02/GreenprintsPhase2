@@ -98,7 +98,7 @@ const DEFAULT_MARKER_RADIUS = 50000;
 		function isolatedStyle(feature) {
 			return {
 				fillColor: "#ffffff", // white
-				fillOpacity: 0, //change to 0 when isolaitng is comepleted
+				fillOpacity: 0, 
 				//border color
 				color: '#000000', // black
 			};
@@ -231,7 +231,6 @@ const DEFAULT_MARKER_RADIUS = 50000;
 			// Creating a new layer with the information about the selected bioregion
 			this.selectedLayer = L.geoJSON(currentRegionInfo, {
 				style: isolatedStyle,
-				// look at isolated feature make a new one called subisolatedfeatue and add the details for that
 				onEachFeature: this.isolatedFeature.bind(this),
 			});
 
@@ -513,14 +512,12 @@ const DEFAULT_MARKER_RADIUS = 50000;
 	//Handler for click events for each feature in geojson layer (Sub-regions)
 	main.prototype.onEachFeatureSubRegions = function (feature, layer) {
 		layer.on({
-
 			click: (e) => {
 				currentRegionInfo = e.target.feature
 				this.currentRegionName = e.target.feature.properties.n;
 				this.currentSubRegionName = e.target.feature.properties.sub_n;
 				this.detailElement.innerHTML = '<strong>Bioregion: </strong>' + this.currentRegionName + '<hr/>';
-
-
+				// get subregion name
 				if (this.currentSubRegionName) {
 					this.detailElement.innerHTML += '<strong>Sub-bioregion: </strong>' + this.currentSubRegionName + '<hr/>';
 				}
@@ -680,7 +677,7 @@ const DEFAULT_MARKER_RADIUS = 50000;
 		/Android|webOS|iPhone|iPad|BlackBerry|Windows Phone|Opera Mini|IEMobile|Mobile/i.test(navigator.userAgent) ?
 			(() => {
 				container = document.getElementsByClassName("panel-container")[0];
-				if (this.isFullScreen) {
+				if (this.isFullScreen) {is
 					container.style.position = 'relative';
 					container.style.width = '100%';
 					container.style.height = '100%';
@@ -792,24 +789,6 @@ const DEFAULT_MARKER_RADIUS = 50000;
 		}
 	}
 
-	// main.prototype.printControl = function () {
-	// 	var printProvider = this.L.print.provider({
-	// 		method: 'GET',
-	// 		url: ' http://path/to/mapfish/print',
-	// 		autoLoad: true,
-	// 		dpi: 90
-	// 	});
-
-	// 	var printControl = L.control.print({
-	// 		provider: printProvider
-	// 	});
-
-
-	// 	this.map.addControl(printControl);
-	// }
-
-
-
 	main.prototype.drawingControl = function () {
 		//------------------
 		// Draw control
@@ -818,7 +797,7 @@ const DEFAULT_MARKER_RADIUS = 50000;
 		// var editableLayers = new L.FeatureGroup();
 		// Add editable layers to the map
 		this.map.addLayer(editableLayers);
-
+		//#region  
 		// set the options for each drawing toolbar
 		var natureconservationcolor = "#936bc4" // Purple
 		var natureconservationoptions = {
@@ -866,6 +845,7 @@ const DEFAULT_MARKER_RADIUS = 50000;
 				featureGroup: editableLayers, //REQUIRED!!
 			}
 		};
+
 		var Minimal_use_color = '#dd87de' // purple/pinkish
 		var Minimal_use_options = {
 			position: 'bottomleft',
@@ -877,7 +857,7 @@ const DEFAULT_MARKER_RADIUS = 50000;
 					}
 				},
 				polyline: false,
-				circle: false, // Turns off this drawing tool
+				circle: false, 
 				rectangle: false,
 				marker: false,
 				remove: true,
@@ -907,6 +887,7 @@ const DEFAULT_MARKER_RADIUS = 50000;
 				featureGroup: editableLayers, //REQUIRED!!
 			}
 		};
+
 		var Production_forestry_options = {
 			position: 'bottomleft',
 			draw: {
@@ -1167,6 +1148,7 @@ const DEFAULT_MARKER_RADIUS = 50000;
 				featureGroup: editableLayers, //REQUIRED!!
 			}
 		};
+		//#endregion
 
 		// create the toolbar with the assigned option
 		var natureconservationcontrol = new L.Control.Draw(natureconservationoptions);
@@ -1308,25 +1290,26 @@ const DEFAULT_MARKER_RADIUS = 50000;
 	}
 
 	main.prototype.exportjson = function () {
-
-
 		var save = document.getElementById('save-button');
 
 		save.onclick = function () {
 			console.log("save button pressed");
+			// get the data from the drawn features
 			var json = editableLayers.toGeoJSON();
-
+			// convert data to json format
 			let dataStr = JSON.stringify(json);
+			// encode data for download 
 			let dataUri = 'data:application/json;charset=utf-8,' + encodeURIComponent(dataStr);
-
+			// name of file to be download 
 			let exportFileDefaultName = 'DrawnFeatures.json';
-
+			// needed to trigger the download 
 			let linkElement = document.createElement('a');
 			linkElement.setAttribute('href', dataUri);
 			linkElement.setAttribute('download', exportFileDefaultName);
 			// required for firefox download
 			document.body.appendChild(linkElement);
 			linkElement.click();
+			// cleanup
 			document.body.removeChild(link);
 		}
 	}

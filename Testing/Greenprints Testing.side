@@ -1,0 +1,1427 @@
+{
+  "id": "db9c6dc9-ee30-41e9-ac5b-296c2e5bee70",
+  "version": "2.0",
+  "name": "Greenprints Testing",
+  "url": "https://www.greenprints.org.au/map-app",
+  "tests": [{
+    "id": "161cf1c5-b60b-4160-ad08-900b0b1cb979",
+    "name": "Displaying Bioregion info",
+    "commands": [{
+      "id": "a7eeacb3-11a7-4c6a-96f2-140461410ea6",
+      "comment": "",
+      "command": "open",
+      "target": "/map-app/",
+      "targets": [],
+      "value": ""
+    }, {
+      "id": "91f46c1d-a2b3-4e8f-9890-0be3489717ab",
+      "comment": "",
+      "command": "setWindowSize",
+      "target": "1296x696",
+      "targets": [],
+      "value": ""
+    }, {
+      "id": "5db4af86-206a-47a6-b7be-f3a417fd0b70",
+      "comment": "",
+      "command": "click",
+      "target": "css=.leaflet-interactive:nth-child(70)",
+      "targets": [
+        ["css=.leaflet-interactive:nth-child(70)", "css:finder"]
+      ],
+      "value": ""
+    }, {
+      "id": "53b2d484-1ea2-45fe-a23a-f1802a5894d2",
+      "comment": "",
+      "command": "click",
+      "target": "css=.leaflet-interactive:nth-child(19)",
+      "targets": [
+        ["css=.leaflet-interactive:nth-child(19)", "css:finder"]
+      ],
+      "value": ""
+    }, {
+      "id": "dd32affc-ba04-4652-904c-ffd0e3000442",
+      "comment": "",
+      "command": "runScript",
+      "target": "window.scrollTo(0,300)",
+      "targets": [],
+      "value": ""
+    }, {
+      "id": "53cc5e0d-c9a5-4a2d-a263-2908734ddd72",
+      "comment": "",
+      "command": "close",
+      "target": "",
+      "targets": [],
+      "value": ""
+    }]
+  }, {
+    "id": "f948bc54-ccfe-4bd2-8e78-d02ba83b0f7b",
+    "name": "Subregion-info",
+    "commands": [{
+      "id": "eb587e9f-fc80-4f5a-afe7-39c058f32251",
+      "comment": "",
+      "command": "open",
+      "target": "https://www.greenprints.org.au/map-app/",
+      "targets": [],
+      "value": ""
+    }, {
+      "id": "5d98f51e-2439-4030-b3db-bf34bd62d30f",
+      "comment": "",
+      "command": "setWindowSize",
+      "target": "1280x680",
+      "targets": [],
+      "value": ""
+    }, {
+      "id": "7f8f4379-24b5-4ed2-9544-c2339e412fdf",
+      "comment": "",
+      "command": "click",
+      "target": "css=#panel-toggle > span",
+      "targets": [
+        ["css=#panel-toggle > span", "css:finder"],
+        ["xpath=//button[@id='panel-toggle']/span", "xpath:idRelative"],
+        ["xpath=//button/span", "xpath:position"]
+      ],
+      "value": ""
+    }, {
+      "id": "dd879562-2112-44ff-9ba3-511a579cd64c",
+      "comment": "",
+      "command": "click",
+      "target": "id=hide-bioregions",
+      "targets": [
+        ["id=hide-bioregions", "id"],
+        ["css=#hide-bioregions", "css:finder"],
+        ["xpath=//input[@id='hide-bioregions']", "xpath:attributes"],
+        ["xpath=//div[@id='controls']/ul/li[3]/input", "xpath:idRelative"],
+        ["xpath=//li[3]/input", "xpath:position"]
+      ],
+      "value": ""
+    }, {
+      "id": "76ef3bf0-0c49-4733-8a26-1bff84be9f40",
+      "comment": "",
+      "command": "click",
+      "target": "id=show-subregions",
+      "targets": [
+        ["id=show-subregions", "id"],
+        ["css=#show-subregions", "css:finder"],
+        ["xpath=//input[@id='show-subregions']", "xpath:attributes"],
+        ["xpath=//div[@id='controls']/ul/li[2]/input", "xpath:idRelative"],
+        ["xpath=//li[2]/input", "xpath:position"]
+      ],
+      "value": ""
+    }, {
+      "id": "a867e45e-d797-4e3e-8bab-52833f1ad3c7",
+      "comment": "",
+      "command": "click",
+      "target": "css=#panel-toggle > span",
+      "targets": [
+        ["css=#panel-toggle > span", "css:finder"],
+        ["xpath=//button[@id='panel-toggle']/span", "xpath:idRelative"],
+        ["xpath=//button/span", "xpath:position"]
+      ],
+      "value": ""
+    }, {
+      "id": "37b89c59-2a86-4be8-b665-ba4f3df614c9",
+      "comment": "",
+      "command": "click",
+      "target": "css=.leaflet-interactive:nth-child(105)",
+      "targets": [
+        ["css=.leaflet-interactive:nth-child(105)", "css:finder"]
+      ],
+      "value": ""
+    }, {
+      "id": "ed8d0e76-5d08-4d92-9f0a-bf75cc8b9b4e",
+      "comment": "",
+      "command": "runScript",
+      "target": "window.scrollTo(0,0)",
+      "targets": [],
+      "value": ""
+    }, {
+      "id": "1c76388e-3e9f-44f4-a86d-a65fab059543",
+      "comment": "",
+      "command": "click",
+      "target": "css=p:nth-child(5)",
+      "targets": [
+        ["css=p:nth-child(5)", "css:finder"],
+        ["xpath=//div[@id='subregion-detail']/p", "xpath:idRelative"],
+        ["xpath=//p", "xpath:position"],
+        ["xpath=//p[contains(.,'Story 4 subregion info')]", "xpath:innerText"]
+      ],
+      "value": ""
+    }, {
+      "id": "eb68f65b-aa1d-48b6-8df1-c6c87056f4af",
+      "comment": "",
+      "command": "click",
+      "target": "id=subregion-detail",
+      "targets": [
+        ["id=subregion-detail", "id"],
+        ["css=#subregion-detail", "css:finder"],
+        ["xpath=//div[@id='subregion-detail']", "xpath:attributes"],
+        ["xpath=//div[@id='root']/div[3]/div[2]/div/div", "xpath:idRelative"],
+        ["xpath=//div[3]/div[2]/div/div", "xpath:position"]
+      ],
+      "value": ""
+    }, {
+      "id": "0ce15115-6075-450f-84e3-1adc2acbc535",
+      "comment": "",
+      "command": "click",
+      "target": "id=subregion-detail",
+      "targets": [
+        ["id=subregion-detail", "id"],
+        ["css=#subregion-detail", "css:finder"],
+        ["xpath=//div[@id='subregion-detail']", "xpath:attributes"],
+        ["xpath=//div[@id='root']/div[3]/div[2]/div/div", "xpath:idRelative"],
+        ["xpath=//div[3]/div[2]/div/div", "xpath:position"]
+      ],
+      "value": ""
+    }, {
+      "id": "9a110bd5-1fda-484b-aefb-9a8cb92653de",
+      "comment": "",
+      "command": "click",
+      "target": "id=subregion-detail",
+      "targets": [
+        ["id=subregion-detail", "id"],
+        ["css=#subregion-detail", "css:finder"],
+        ["xpath=//div[@id='subregion-detail']", "xpath:attributes"],
+        ["xpath=//div[@id='root']/div[3]/div[2]/div/div", "xpath:idRelative"],
+        ["xpath=//div[3]/div[2]/div/div", "xpath:position"]
+      ],
+      "value": ""
+    }, {
+      "id": "a968a28a-a1f0-4d76-ad7e-ebcfc9274458",
+      "comment": "",
+      "command": "close",
+      "target": "",
+      "targets": [],
+      "value": ""
+    }]
+  }, {
+    "id": "4fb00ef7-38f0-4bfe-acb7-193db05ff66c",
+    "name": "Isolating-bioregion",
+    "commands": [{
+      "id": "31d9aaff-0745-49e4-a735-7d942a335b27",
+      "comment": "",
+      "command": "open",
+      "target": "https://www.greenprints.org.au/map-app/",
+      "targets": [],
+      "value": ""
+    }, {
+      "id": "35cf8ec2-ec75-4277-9562-85f04fc4f728",
+      "comment": "",
+      "command": "setWindowSize",
+      "target": "1280x680",
+      "targets": [],
+      "value": ""
+    }, {
+      "id": "e97d0d42-9ab6-4415-a559-1594ebe48603",
+      "comment": "",
+      "command": "click",
+      "target": "css=.leaflet-interactive:nth-child(19)",
+      "targets": [
+        ["css=.leaflet-interactive:nth-child(19)", "css:finder"]
+      ],
+      "value": ""
+    }, {
+      "id": "b965ba9e-d51b-472e-b9a4-e83cc2487c01",
+      "comment": "",
+      "command": "click",
+      "target": "id=isolate-button",
+      "targets": [
+        ["id=isolate-button", "id"],
+        ["css=#isolate-button", "css:finder"],
+        ["xpath=//button[@id='isolate-button']", "xpath:attributes"],
+        ["xpath=//div[@id='mapid']/div[2]/div[6]/div/div/div/button", "xpath:idRelative"],
+        ["xpath=//div[6]/div/div/div/button", "xpath:position"],
+        ["xpath=//button[contains(.,'Isolate region')]", "xpath:innerText"]
+      ],
+      "value": ""
+    }, {
+      "id": "5db2af4f-67c6-4588-b9d4-aaf748717d60",
+      "comment": "",
+      "command": "click",
+      "target": "css=.leaflet-interactive:nth-child(89)",
+      "targets": [
+        ["css=.leaflet-interactive:nth-child(89)", "css:finder"]
+      ],
+      "value": ""
+    }, {
+      "id": "63acc59b-b9ed-4ae3-84ca-1bed18084c7e",
+      "comment": "",
+      "command": "click",
+      "target": "id=undo-button",
+      "targets": [
+        ["id=undo-button", "id"],
+        ["css=#undo-button", "css:finder"],
+        ["xpath=//button[@id='undo-button']", "xpath:attributes"],
+        ["xpath=//div[@id='mapid']/div[2]/div[6]/div/div/div/button", "xpath:idRelative"],
+        ["xpath=//div[6]/div/div/div/button", "xpath:position"],
+        ["xpath=//button[contains(.,'Undo')]", "xpath:innerText"]
+      ],
+      "value": ""
+    }, {
+      "id": "d3860782-1e43-4967-a96e-f5c087a35c12",
+      "comment": "",
+      "command": "click",
+      "target": "css=.leaflet-interactive:nth-child(19)",
+      "targets": [
+        ["css=.leaflet-interactive:nth-child(19)", "css:finder"]
+      ],
+      "value": ""
+    }, {
+      "id": "6c49f16e-9bd6-4bcb-b9fe-890117469d6a",
+      "comment": "",
+      "command": "click",
+      "target": "css=.leaflet-interactive:nth-child(39)",
+      "targets": [
+        ["css=.leaflet-interactive:nth-child(39)", "css:finder"]
+      ],
+      "value": ""
+    }, {
+      "id": "d8d7cb96-9a23-4243-966a-1ab789e53b97",
+      "comment": "",
+      "command": "click",
+      "target": "id=isolate-button",
+      "targets": [
+        ["id=isolate-button", "id"],
+        ["css=#isolate-button", "css:finder"],
+        ["xpath=//button[@id='isolate-button']", "xpath:attributes"],
+        ["xpath=//div[@id='mapid']/div[2]/div[6]/div/div/div/button", "xpath:idRelative"],
+        ["xpath=//div[6]/div/div/div/button", "xpath:position"],
+        ["xpath=//button[contains(.,'Isolate region')]", "xpath:innerText"]
+      ],
+      "value": ""
+    }, {
+      "id": "7012e2da-4b46-4293-99c6-ed7fa039f54a",
+      "comment": "",
+      "command": "click",
+      "target": "css=.leaflet-interactive:nth-child(26)",
+      "targets": [
+        ["css=.leaflet-interactive:nth-child(26)", "css:finder"]
+      ],
+      "value": ""
+    }, {
+      "id": "45969f1e-36eb-4f16-8ad2-d9aaffab6033",
+      "comment": "",
+      "command": "click",
+      "target": "id=isolate-button",
+      "targets": [
+        ["id=isolate-button", "id"],
+        ["css=#isolate-button", "css:finder"],
+        ["xpath=//button[@id='isolate-button']", "xpath:attributes"],
+        ["xpath=//div[@id='mapid']/div[2]/div[6]/div/div/div/button", "xpath:idRelative"],
+        ["xpath=//div[6]/div/div/div/button", "xpath:position"],
+        ["xpath=//button[contains(.,'Isolate region')]", "xpath:innerText"]
+      ],
+      "value": ""
+    }, {
+      "id": "77048917-5aec-44bf-9b7a-87d0f9e281f8",
+      "comment": "",
+      "command": "click",
+      "target": "css=.leaflet-interactive:nth-child(19)",
+      "targets": [
+        ["css=.leaflet-interactive:nth-child(19)", "css:finder"]
+      ],
+      "value": ""
+    }, {
+      "id": "fc730bc2-5792-4f80-b533-de53bc5ece6c",
+      "comment": "",
+      "command": "click",
+      "target": "id=isolate-button",
+      "targets": [
+        ["id=isolate-button", "id"],
+        ["css=#isolate-button", "css:finder"],
+        ["xpath=//button[@id='isolate-button']", "xpath:attributes"],
+        ["xpath=//div[@id='mapid']/div[2]/div[6]/div/div/div/button", "xpath:idRelative"],
+        ["xpath=//div[6]/div/div/div/button", "xpath:position"],
+        ["xpath=//button[contains(.,'Isolate region')]", "xpath:innerText"]
+      ],
+      "value": ""
+    }, {
+      "id": "f29d0b36-d693-41de-87be-3c1cbeb649cb",
+      "comment": "",
+      "command": "close",
+      "target": "",
+      "targets": [],
+      "value": ""
+    }]
+  }, {
+    "id": "c57c69c7-5035-471d-9fc9-c2fedb5aed55",
+    "name": "Isolating subregions",
+    "commands": [{
+      "id": "7be3e04a-90b1-4411-a8f5-e254ff32cc16",
+      "comment": "",
+      "command": "open",
+      "target": "https://www.greenprints.org.au/map-app/",
+      "targets": [],
+      "value": ""
+    }, {
+      "id": "22719d6e-9800-4a77-abb1-965ed3271e85",
+      "comment": "",
+      "command": "setWindowSize",
+      "target": "1280x680",
+      "targets": [],
+      "value": ""
+    }, {
+      "id": "3851cf2b-56af-4b60-8424-ca451170631f",
+      "comment": "",
+      "command": "click",
+      "target": "css=.button-state",
+      "targets": [
+        ["css=.button-state", "css:finder"],
+        ["xpath=//div[@id='mapid']/div[3]/div/div[3]/button/span", "xpath:idRelative"],
+        ["xpath=//div[3]/button/span", "xpath:position"]
+      ],
+      "value": ""
+    }, {
+      "id": "2495b49b-6546-46a9-9118-f23aac2a3224",
+      "comment": "",
+      "command": "mouseOver",
+      "target": "css=.button-state",
+      "targets": [
+        ["css=.button-state", "css:finder"],
+        ["xpath=//div[@id='mapid']/div[3]/div/div[3]/button/span", "xpath:idRelative"],
+        ["xpath=//div[3]/button/span", "xpath:position"]
+      ],
+      "value": ""
+    }, {
+      "id": "b76f3b48-4c42-4414-920a-28063a9b3531",
+      "comment": "",
+      "command": "mouseOut",
+      "target": "css=.button-state",
+      "targets": [
+        ["css=.button-state", "css:finder"],
+        ["xpath=//div[@id='mapid']/div[3]/div/div[3]/button/span", "xpath:idRelative"],
+        ["xpath=//div[3]/button/span", "xpath:position"]
+      ],
+      "value": ""
+    }, {
+      "id": "9f42d698-b4de-4b59-8c90-62431ef3ae90",
+      "comment": "",
+      "command": "click",
+      "target": "css=#panel-toggle > span",
+      "targets": [
+        ["css=#panel-toggle > span", "css:finder"],
+        ["xpath=//button[@id='panel-toggle']/span", "xpath:idRelative"],
+        ["xpath=//button/span", "xpath:position"]
+      ],
+      "value": ""
+    }, {
+      "id": "da0f0136-d830-4929-acbb-b58710b3affe",
+      "comment": "",
+      "command": "click",
+      "target": "id=hide-bioregions",
+      "targets": [
+        ["id=hide-bioregions", "id"],
+        ["css=#hide-bioregions", "css:finder"],
+        ["xpath=//input[@id='hide-bioregions']", "xpath:attributes"],
+        ["xpath=//div[@id='controls']/ul/li[3]/input", "xpath:idRelative"],
+        ["xpath=//li[3]/input", "xpath:position"]
+      ],
+      "value": ""
+    }, {
+      "id": "a78d7676-8e32-4102-a375-d200f05683d1",
+      "comment": "",
+      "command": "click",
+      "target": "id=show-subregions",
+      "targets": [
+        ["id=show-subregions", "id"],
+        ["css=#show-subregions", "css:finder"],
+        ["xpath=//input[@id='show-subregions']", "xpath:attributes"],
+        ["xpath=//div[@id='controls']/ul/li[2]/input", "xpath:idRelative"],
+        ["xpath=//li[2]/input", "xpath:position"]
+      ],
+      "value": ""
+    }, {
+      "id": "77abffb5-e571-4a17-962c-0b341734e2b9",
+      "comment": "",
+      "command": "mouseOver",
+      "target": "id=show-subregions",
+      "targets": [
+        ["id=show-subregions", "id"],
+        ["css=#show-subregions", "css:finder"],
+        ["xpath=//input[@id='show-subregions']", "xpath:attributes"],
+        ["xpath=//div[@id='controls']/ul/li[2]/input", "xpath:idRelative"],
+        ["xpath=//li[2]/input", "xpath:position"]
+      ],
+      "value": ""
+    }, {
+      "id": "bdd389b9-f3a9-477c-8764-c4f586ba4537",
+      "comment": "",
+      "command": "mouseOut",
+      "target": "id=show-subregions",
+      "targets": [
+        ["id=show-subregions", "id"],
+        ["css=#show-subregions", "css:finder"],
+        ["xpath=//input[@id='show-subregions']", "xpath:attributes"],
+        ["xpath=//div[@id='controls']/ul/li[2]/input", "xpath:idRelative"],
+        ["xpath=//li[2]/input", "xpath:position"]
+      ],
+      "value": ""
+    }, {
+      "id": "8e69122e-8052-4312-8bc8-e94e8b7a304f",
+      "comment": "",
+      "command": "click",
+      "target": "css=.leaflet-interactive:nth-child(105)",
+      "targets": [
+        ["css=.leaflet-interactive:nth-child(105)", "css:finder"]
+      ],
+      "value": ""
+    }, {
+      "id": "4b3b3d8d-5e62-471b-a74a-9fca9f97248b",
+      "comment": "",
+      "command": "click",
+      "target": "id=isolate-button",
+      "targets": [
+        ["id=isolate-button", "id"],
+        ["css=#isolate-button", "css:finder"],
+        ["xpath=//button[@id='isolate-button']", "xpath:attributes"],
+        ["xpath=//div[@id='mapid']/div[2]/div[6]/div/div/div/button", "xpath:idRelative"],
+        ["xpath=//div[6]/div/div/div/button", "xpath:position"],
+        ["xpath=//button[contains(.,'Isolate Subregion')]", "xpath:innerText"]
+      ],
+      "value": ""
+    }, {
+      "id": "962a6967-d571-45fa-987c-6c168fb7eb6b",
+      "comment": "",
+      "command": "click",
+      "target": "id=panel-toggle",
+      "targets": [
+        ["id=panel-toggle", "id"],
+        ["css=#panel-toggle", "css:finder"],
+        ["xpath=//button[@id='panel-toggle']", "xpath:attributes"],
+        ["xpath=//div[@id='root']/div[3]/div/div/button", "xpath:idRelative"],
+        ["xpath=//div/button", "xpath:position"]
+      ],
+      "value": ""
+    }, {
+      "id": "257f45f7-2f9d-48a9-b968-be306cd1bf4f",
+      "comment": "",
+      "command": "click",
+      "target": "css=.leaflet-interactive:nth-child(108)",
+      "targets": [
+        ["css=.leaflet-interactive:nth-child(108)", "css:finder"]
+      ],
+      "value": ""
+    }, {
+      "id": "41722922-fa82-4692-ba41-e5c8e2786263",
+      "comment": "",
+      "command": "click",
+      "target": "id=isolate-button",
+      "targets": [
+        ["id=isolate-button", "id"],
+        ["css=#isolate-button", "css:finder"],
+        ["xpath=//button[@id='isolate-button']", "xpath:attributes"],
+        ["xpath=//div[@id='mapid']/div[2]/div[6]/div/div/div/button", "xpath:idRelative"],
+        ["xpath=//div[6]/div/div/div/button", "xpath:position"],
+        ["xpath=//button[contains(.,'Isolate Subregion')]", "xpath:innerText"]
+      ],
+      "value": ""
+    }, {
+      "id": "a28b89d8-9221-41a8-ac9e-5e97c99b4b81",
+      "comment": "",
+      "command": "click",
+      "target": "css=.leaflet-interactive:nth-child(109)",
+      "targets": [
+        ["css=.leaflet-interactive:nth-child(109)", "css:finder"]
+      ],
+      "value": ""
+    }, {
+      "id": "1baa0c87-9935-4bff-9348-2e4cac2da9a6",
+      "comment": "",
+      "command": "click",
+      "target": "id=isolate-button",
+      "targets": [
+        ["id=isolate-button", "id"],
+        ["css=#isolate-button", "css:finder"],
+        ["xpath=//button[@id='isolate-button']", "xpath:attributes"],
+        ["xpath=//div[@id='mapid']/div[2]/div[6]/div/div/div/button", "xpath:idRelative"],
+        ["xpath=//div[6]/div/div/div/button", "xpath:position"],
+        ["xpath=//button[contains(.,'Isolate Subregion')]", "xpath:innerText"]
+      ],
+      "value": ""
+    }, {
+      "id": "a1d90e07-3519-408a-b653-9cb3608133f3",
+      "comment": "",
+      "command": "click",
+      "target": "css=g > .leaflet-interactive:nth-child(1)",
+      "targets": [
+        ["css=g > .leaflet-interactive:nth-child(1)", "css:finder"]
+      ],
+      "value": ""
+    }, {
+      "id": "7bb510a8-8ded-467d-b8b9-788a6609ae7f",
+      "comment": "",
+      "command": "click",
+      "target": "id=undo-button",
+      "targets": [
+        ["id=undo-button", "id"],
+        ["css=#undo-button", "css:finder"],
+        ["xpath=//button[@id='undo-button']", "xpath:attributes"],
+        ["xpath=//div[@id='mapid']/div[2]/div[6]/div/div/div/button", "xpath:idRelative"],
+        ["xpath=//div[6]/div/div/div/button", "xpath:position"],
+        ["xpath=//button[contains(.,'Undo')]", "xpath:innerText"]
+      ],
+      "value": ""
+    }, {
+      "id": "a2a5f376-fdcc-4a81-9587-b01a9e3b1a74",
+      "comment": "",
+      "command": "close",
+      "target": "",
+      "targets": [],
+      "value": ""
+    }]
+  }, {
+    "id": "bbaa416b-9609-425d-b487-cecff90ff0db",
+    "name": "Overlapping layers",
+    "commands": [{
+      "id": "de79fa81-6a75-445e-ac18-646b2ffbf633",
+      "comment": "",
+      "command": "open",
+      "target": "https://www.greenprints.org.au/map-app/",
+      "targets": [],
+      "value": ""
+    }, {
+      "id": "905c4e9f-26d1-4e15-b804-870563c1ddc8",
+      "comment": "",
+      "command": "setWindowSize",
+      "target": "1280x680",
+      "targets": [],
+      "value": ""
+    }, {
+      "id": "96daeae7-5463-4895-9285-d1e24c1883f6",
+      "comment": "",
+      "command": "runScript",
+      "target": "window.scrollTo(0,200)",
+      "targets": [],
+      "value": ""
+    }, {
+      "id": "17ec9bd9-acb4-40d5-a145-dc7cd8f6bd7a",
+      "comment": "",
+      "command": "mouseDownAt",
+      "target": "css=.leaflet-interactive:nth-child(19)",
+      "targets": [
+        ["css=.leaflet-interactive:nth-child(19)", "css:finder"]
+      ],
+      "value": "38.447906494140625,161.66665649414062"
+    }, {
+      "id": "2c418cce-acda-41a0-9e76-219b71d46922",
+      "comment": "",
+      "command": "mouseMoveAt",
+      "target": "css=.leaflet-interactive:nth-child(19)",
+      "targets": [
+        ["css=.leaflet-interactive:nth-child(19)", "css:finder"]
+      ],
+      "value": "38.447906494140625,161.66665649414062"
+    }, {
+      "id": "0138b866-15b1-4265-a64b-14f334095d7e",
+      "comment": "",
+      "command": "mouseUpAt",
+      "target": "css=.leaflet-interactive:nth-child(19)",
+      "targets": [
+        ["css=.leaflet-interactive:nth-child(19)", "css:finder"]
+      ],
+      "value": "38.447906494140625,161.66665649414062"
+    }, {
+      "id": "883ba266-c09a-4695-8464-639791046297",
+      "comment": "",
+      "command": "click",
+      "target": "css=.leaflet-interactive:nth-child(19)",
+      "targets": [
+        ["css=.leaflet-interactive:nth-child(19)", "css:finder"]
+      ],
+      "value": ""
+    }, {
+      "id": "c8789efe-138e-40ff-81f4-02e293d2abcb",
+      "comment": "",
+      "command": "click",
+      "target": "css=.leaflet-interactive:nth-child(19)",
+      "targets": [
+        ["css=.leaflet-interactive:nth-child(19)", "css:finder"]
+      ],
+      "value": ""
+    }, {
+      "id": "23de269a-148c-4b3a-a657-4ea215bc9742",
+      "comment": "",
+      "command": "click",
+      "target": "id=isolate-button",
+      "targets": [
+        ["id=isolate-button", "id"],
+        ["css=#isolate-button", "css:finder"],
+        ["xpath=//button[@id='isolate-button']", "xpath:attributes"],
+        ["xpath=//div[@id='mapid']/div[2]/div[6]/div/div/div/button", "xpath:idRelative"],
+        ["xpath=//div[6]/div/div/div/button", "xpath:position"],
+        ["xpath=//button[contains(.,'Isolate region')]", "xpath:innerText"]
+      ],
+      "value": ""
+    }, {
+      "id": "c0b9afed-0e25-432b-90a3-1a2204abec7a",
+      "comment": "",
+      "command": "click",
+      "target": "id=panel-toggle",
+      "targets": [
+        ["id=panel-toggle", "id"],
+        ["css=#panel-toggle", "css:finder"],
+        ["xpath=//button[@id='panel-toggle']", "xpath:attributes"],
+        ["xpath=//div[@id='root']/div[3]/div/div/button", "xpath:idRelative"],
+        ["xpath=//div/button", "xpath:position"]
+      ],
+      "value": ""
+    }, {
+      "id": "12585fe7-f815-469b-905e-9f3a4f49ebf5",
+      "comment": "",
+      "command": "click",
+      "target": "id=show-subregions",
+      "targets": [
+        ["id=show-subregions", "id"],
+        ["css=#show-subregions", "css:finder"],
+        ["xpath=//input[@id='show-subregions']", "xpath:attributes"],
+        ["xpath=//div[@id='controls']/ul/li[2]/input", "xpath:idRelative"],
+        ["xpath=//li[2]/input", "xpath:position"]
+      ],
+      "value": ""
+    }, {
+      "id": "a32bec22-dde0-4762-b13e-60629a856044",
+      "comment": "",
+      "command": "mouseOver",
+      "target": "id=show-subregions",
+      "targets": [
+        ["id=show-subregions", "id"],
+        ["css=#show-subregions", "css:finder"],
+        ["xpath=//input[@id='show-subregions']", "xpath:attributes"],
+        ["xpath=//div[@id='controls']/ul/li[2]/input", "xpath:idRelative"],
+        ["xpath=//li[2]/input", "xpath:position"]
+      ],
+      "value": ""
+    }, {
+      "id": "9373c351-8b63-4e51-bf35-d4b10cdc3dc7",
+      "comment": "",
+      "command": "mouseOut",
+      "target": "id=show-subregions",
+      "targets": [
+        ["id=show-subregions", "id"],
+        ["css=#show-subregions", "css:finder"],
+        ["xpath=//input[@id='show-subregions']", "xpath:attributes"],
+        ["xpath=//div[@id='controls']/ul/li[2]/input", "xpath:idRelative"],
+        ["xpath=//li[2]/input", "xpath:position"]
+      ],
+      "value": ""
+    }, {
+      "id": "8df97779-e0b2-4081-86fb-ec6593429be1",
+      "comment": "",
+      "command": "click",
+      "target": "css=.leaflet-interactive:nth-child(198)",
+      "targets": [
+        ["css=.leaflet-interactive:nth-child(198)", "css:finder"]
+      ],
+      "value": ""
+    }, {
+      "id": "f477266b-a842-46c5-8fa3-8fcf7b260ec1",
+      "comment": "",
+      "command": "runScript",
+      "target": "window.scrollTo(0,200)",
+      "targets": [],
+      "value": ""
+    }, {
+      "id": "9b761342-e57e-4785-8b8e-a06d1416959b",
+      "comment": "",
+      "command": "click",
+      "target": "id=isolate-button",
+      "targets": [
+        ["id=isolate-button", "id"],
+        ["css=#isolate-button", "css:finder"],
+        ["xpath=//button[@id='isolate-button']", "xpath:attributes"],
+        ["xpath=//div[@id='mapid']/div[2]/div[6]/div/div/div/button", "xpath:idRelative"],
+        ["xpath=//div[6]/div/div/div/button", "xpath:position"],
+        ["xpath=//button[contains(.,'Isolate Subregion')]", "xpath:innerText"]
+      ],
+      "value": ""
+    }, {
+      "id": "561ec4a3-d740-4d45-8e80-33ffca44f436",
+      "comment": "",
+      "command": "click",
+      "target": "css=.leaflet-interactive:nth-child(109)",
+      "targets": [
+        ["css=.leaflet-interactive:nth-child(109)", "css:finder"]
+      ],
+      "value": ""
+    }, {
+      "id": "f4e6f308-184d-44a3-bed9-c02aab5368e6",
+      "comment": "",
+      "command": "runScript",
+      "target": "window.scrollTo(0,200)",
+      "targets": [],
+      "value": ""
+    }, {
+      "id": "5dc8284a-f686-414a-97ee-f9cf1837f7fc",
+      "comment": "",
+      "command": "click",
+      "target": "id=isolate-button",
+      "targets": [
+        ["id=isolate-button", "id"],
+        ["css=#isolate-button", "css:finder"],
+        ["xpath=//button[@id='isolate-button']", "xpath:attributes"],
+        ["xpath=//div[@id='mapid']/div[2]/div[6]/div/div/div/button", "xpath:idRelative"],
+        ["xpath=//div[6]/div/div/div/button", "xpath:position"],
+        ["xpath=//button[contains(.,'Isolate Subregion')]", "xpath:innerText"]
+      ],
+      "value": ""
+    }, {
+      "id": "49d39ea5-8bfa-44db-839e-159fedd296c6",
+      "comment": "",
+      "command": "click",
+      "target": "id=hide-bioregions",
+      "targets": [
+        ["id=hide-bioregions", "id"],
+        ["css=#hide-bioregions", "css:finder"],
+        ["xpath=//input[@id='hide-bioregions']", "xpath:attributes"],
+        ["xpath=//div[@id='controls']/ul/li[3]/input", "xpath:idRelative"],
+        ["xpath=//li[3]/input", "xpath:position"]
+      ],
+      "value": ""
+    }, {
+      "id": "5bd428da-6b26-482e-8f08-2c6667a16562",
+      "comment": "",
+      "command": "click",
+      "target": "id=hide-subregions",
+      "targets": [
+        ["id=hide-subregions", "id"],
+        ["css=#hide-subregions", "css:finder"],
+        ["xpath=//input[@id='hide-subregions']", "xpath:attributes"],
+        ["xpath=//div[@id='controls']/ul/li[4]/input", "xpath:idRelative"],
+        ["xpath=//li[4]/input", "xpath:position"]
+      ],
+      "value": ""
+    }, {
+      "id": "14c0efa6-0ae3-4ff6-8795-a665160b1408",
+      "comment": "",
+      "command": "click",
+      "target": "id=show-bioregions",
+      "targets": [
+        ["id=show-bioregions", "id"],
+        ["css=#show-bioregions", "css:finder"],
+        ["xpath=//input[@id='show-bioregions']", "xpath:attributes"],
+        ["xpath=//div[@id='controls']/ul/li/input", "xpath:idRelative"],
+        ["xpath=//input", "xpath:position"]
+      ],
+      "value": ""
+    }, {
+      "id": "36e8818d-03ef-484d-90fa-9022713bdcaa",
+      "comment": "",
+      "command": "click",
+      "target": "css=.leaflet-interactive:nth-child(857)",
+      "targets": [
+        ["css=.leaflet-interactive:nth-child(857)", "css:finder"]
+      ],
+      "value": ""
+    }, {
+      "id": "db335300-cd58-4cff-8c0f-c0ecf149970a",
+      "comment": "",
+      "command": "runScript",
+      "target": "window.scrollTo(0,200)",
+      "targets": [],
+      "value": ""
+    }, {
+      "id": "0f1a6fcc-cc3f-4a15-a389-6f5e4ae87ffc",
+      "comment": "",
+      "command": "click",
+      "target": "id=isolate-button",
+      "targets": [
+        ["id=isolate-button", "id"],
+        ["css=#isolate-button", "css:finder"],
+        ["xpath=//button[@id='isolate-button']", "xpath:attributes"],
+        ["xpath=//div[@id='mapid']/div[2]/div[6]/div/div/div/button", "xpath:idRelative"],
+        ["xpath=//div[6]/div/div/div/button", "xpath:position"],
+        ["xpath=//button[contains(.,'Isolate region')]", "xpath:innerText"]
+      ],
+      "value": ""
+    }, {
+      "id": "6ecf9bb0-a635-409a-8495-81c9226a51fc",
+      "comment": "",
+      "command": "click",
+      "target": "css=.leaflet-interactive:nth-child(89)",
+      "targets": [
+        ["css=.leaflet-interactive:nth-child(89)", "css:finder"]
+      ],
+      "value": ""
+    }, {
+      "id": "77964403-072f-47d7-a4ec-b88e3cfef9b4",
+      "comment": "",
+      "command": "runScript",
+      "target": "window.scrollTo(0,200)",
+      "targets": [],
+      "value": ""
+    }, {
+      "id": "1d2938c3-ab6f-43bc-afe8-faf996ea488c",
+      "comment": "",
+      "command": "click",
+      "target": "id=undo-button",
+      "targets": [
+        ["id=undo-button", "id"],
+        ["css=#undo-button", "css:finder"],
+        ["xpath=//button[@id='undo-button']", "xpath:attributes"],
+        ["xpath=//div[@id='mapid']/div[2]/div[6]/div/div/div/button", "xpath:idRelative"],
+        ["xpath=//div[6]/div/div/div/button", "xpath:position"],
+        ["xpath=//button[contains(.,'Undo')]", "xpath:innerText"]
+      ],
+      "value": ""
+    }, {
+      "id": "ad4d03a4-d145-402c-b78c-1f4f61a89d04",
+      "comment": "",
+      "command": "click",
+      "target": "id=show-bioregions",
+      "targets": [
+        ["id=show-bioregions", "id"],
+        ["css=#show-bioregions", "css:finder"],
+        ["xpath=//input[@id='show-bioregions']", "xpath:attributes"],
+        ["xpath=//div[@id='controls']/ul/li/input", "xpath:idRelative"],
+        ["xpath=//input", "xpath:position"]
+      ],
+      "value": ""
+    }, {
+      "id": "fbb7b396-dc0e-4f07-be05-6a9921823a04",
+      "comment": "",
+      "command": "click",
+      "target": "id=show-subregions",
+      "targets": [
+        ["id=show-subregions", "id"],
+        ["css=#show-subregions", "css:finder"],
+        ["xpath=//input[@id='show-subregions']", "xpath:attributes"],
+        ["xpath=//div[@id='controls']/ul/li[2]/input", "xpath:idRelative"],
+        ["xpath=//li[2]/input", "xpath:position"]
+      ],
+      "value": ""
+    }, {
+      "id": "06936a48-49bc-4c51-9222-bfcb88289e3a",
+      "comment": "",
+      "command": "click",
+      "target": "id=hide-bioregions",
+      "targets": [
+        ["id=hide-bioregions", "id"],
+        ["css=#hide-bioregions", "css:finder"],
+        ["xpath=//input[@id='hide-bioregions']", "xpath:attributes"],
+        ["xpath=//div[@id='controls']/ul/li[3]/input", "xpath:idRelative"],
+        ["xpath=//li[3]/input", "xpath:position"]
+      ],
+      "value": ""
+    }, {
+      "id": "28de77e1-8e77-4e95-8404-8c60bf0ca945",
+      "comment": "",
+      "command": "mouseOver",
+      "target": "id=hide-bioregions",
+      "targets": [
+        ["id=hide-bioregions", "id"],
+        ["css=#hide-bioregions", "css:finder"],
+        ["xpath=//input[@id='hide-bioregions']", "xpath:attributes"],
+        ["xpath=//div[@id='controls']/ul/li[3]/input", "xpath:idRelative"],
+        ["xpath=//li[3]/input", "xpath:position"]
+      ],
+      "value": ""
+    }, {
+      "id": "fbab33b9-7bd5-4055-b0c0-13fcf11a5ff3",
+      "comment": "",
+      "command": "mouseOut",
+      "target": "id=hide-bioregions",
+      "targets": [
+        ["id=hide-bioregions", "id"],
+        ["css=#hide-bioregions", "css:finder"],
+        ["xpath=//input[@id='hide-bioregions']", "xpath:attributes"],
+        ["xpath=//div[@id='controls']/ul/li[3]/input", "xpath:idRelative"],
+        ["xpath=//li[3]/input", "xpath:position"]
+      ],
+      "value": ""
+    }, {
+      "id": "38b2ff7c-69ec-4f91-9e65-1eae1a097d63",
+      "comment": "",
+      "command": "click",
+      "target": "id=hide-subregions",
+      "targets": [
+        ["id=hide-subregions", "id"],
+        ["css=#hide-subregions", "css:finder"],
+        ["xpath=//input[@id='hide-subregions']", "xpath:attributes"],
+        ["xpath=//div[@id='controls']/ul/li[4]/input", "xpath:idRelative"],
+        ["xpath=//li[4]/input", "xpath:position"]
+      ],
+      "value": ""
+    }, {
+      "id": "b7cdcfbf-c749-43dc-b934-623cf5659550",
+      "comment": "",
+      "command": "click",
+      "target": "id=show-subregions",
+      "targets": [
+        ["id=show-subregions", "id"],
+        ["css=#show-subregions", "css:finder"],
+        ["xpath=//input[@id='show-subregions']", "xpath:attributes"],
+        ["xpath=//div[@id='controls']/ul/li[2]/input", "xpath:idRelative"],
+        ["xpath=//li[2]/input", "xpath:position"]
+      ],
+      "value": ""
+    }, {
+      "id": "b0b07fc5-fe73-4205-a9c6-76471e9470b9",
+      "comment": "",
+      "command": "click",
+      "target": "id=show-subregions",
+      "targets": [
+        ["id=show-subregions", "id"],
+        ["css=#show-subregions", "css:finder"],
+        ["xpath=//input[@id='show-subregions']", "xpath:attributes"],
+        ["xpath=//div[@id='controls']/ul/li[2]/input", "xpath:idRelative"],
+        ["xpath=//li[2]/input", "xpath:position"]
+      ],
+      "value": ""
+    }, {
+      "id": "bbd6c2f4-ad86-4a7a-9da0-d689b4717932",
+      "comment": "",
+      "command": "click",
+      "target": "id=show-bioregions",
+      "targets": [
+        ["id=show-bioregions", "id"],
+        ["css=#show-bioregions", "css:finder"],
+        ["xpath=//input[@id='show-bioregions']", "xpath:attributes"],
+        ["xpath=//div[@id='controls']/ul/li/input", "xpath:idRelative"],
+        ["xpath=//input", "xpath:position"]
+      ],
+      "value": ""
+    }, {
+      "id": "41b939ce-ce17-47ca-bb41-b235fe21c51c",
+      "comment": "",
+      "command": "click",
+      "target": "id=show-bioregions",
+      "targets": [
+        ["id=show-bioregions", "id"],
+        ["css=#show-bioregions", "css:finder"],
+        ["xpath=//input[@id='show-bioregions']", "xpath:attributes"],
+        ["xpath=//div[@id='controls']/ul/li/input", "xpath:idRelative"],
+        ["xpath=//input", "xpath:position"]
+      ],
+      "value": ""
+    }, {
+      "id": "25d5550f-f27b-474d-99ee-490686a3ca36",
+      "comment": "",
+      "command": "click",
+      "target": "id=hide-bioregions",
+      "targets": [
+        ["id=hide-bioregions", "id"],
+        ["css=#hide-bioregions", "css:finder"],
+        ["xpath=//input[@id='hide-bioregions']", "xpath:attributes"],
+        ["xpath=//div[@id='controls']/ul/li[3]/input", "xpath:idRelative"],
+        ["xpath=//li[3]/input", "xpath:position"]
+      ],
+      "value": ""
+    }, {
+      "id": "e5d9066b-83d3-4341-be4b-6e026ea3ee5a",
+      "comment": "",
+      "command": "click",
+      "target": "id=hide-subregions",
+      "targets": [
+        ["id=hide-subregions", "id"],
+        ["css=#hide-subregions", "css:finder"],
+        ["xpath=//input[@id='hide-subregions']", "xpath:attributes"],
+        ["xpath=//div[@id='controls']/ul/li[4]/input", "xpath:idRelative"],
+        ["xpath=//li[4]/input", "xpath:position"]
+      ],
+      "value": ""
+    }, {
+      "id": "3d77ede3-a70e-48be-8ffb-05b25c1bfbb1",
+      "comment": "",
+      "command": "click",
+      "target": "css=#panel-toggle > span",
+      "targets": [
+        ["css=#panel-toggle > span", "css:finder"],
+        ["xpath=//button[@id='panel-toggle']/span", "xpath:idRelative"],
+        ["xpath=//button/span", "xpath:position"]
+      ],
+      "value": ""
+    }, {
+      "id": "d9afd9dc-8818-4706-adfd-9fd4a058d023",
+      "comment": "",
+      "command": "click",
+      "target": "css=.leaflet-interactive:nth-child(108)",
+      "targets": [
+        ["css=.leaflet-interactive:nth-child(108)", "css:finder"]
+      ],
+      "value": ""
+    }, {
+      "id": "f975d2d5-1f04-44e6-932e-647337bf6375",
+      "comment": "",
+      "command": "runScript",
+      "target": "window.scrollTo(0,200)",
+      "targets": [],
+      "value": ""
+    }, {
+      "id": "ace5974a-72ff-42f8-a26e-2adb9f42cb4b",
+      "comment": "",
+      "command": "click",
+      "target": "id=isolate-button",
+      "targets": [
+        ["id=isolate-button", "id"],
+        ["css=#isolate-button", "css:finder"],
+        ["xpath=//button[@id='isolate-button']", "xpath:attributes"],
+        ["xpath=//div[@id='mapid']/div[2]/div[6]/div/div/div/button", "xpath:idRelative"],
+        ["xpath=//div[6]/div/div/div/button", "xpath:position"],
+        ["xpath=//button[contains(.,'Isolate Subregion')]", "xpath:innerText"]
+      ],
+      "value": ""
+    }, {
+      "id": "ee8bf9bb-8604-4535-bf3e-0e6cb535633f",
+      "comment": "",
+      "command": "click",
+      "target": "css=g > .leaflet-interactive:nth-child(1)",
+      "targets": [
+        ["css=g > .leaflet-interactive:nth-child(1)", "css:finder"]
+      ],
+      "value": ""
+    }, {
+      "id": "de27a032-fc5c-4c0d-b346-9a7227193379",
+      "comment": "",
+      "command": "runScript",
+      "target": "window.scrollTo(0,200)",
+      "targets": [],
+      "value": ""
+    }, {
+      "id": "377b91ad-07d9-4d61-a20c-324614c42851",
+      "comment": "",
+      "command": "click",
+      "target": "id=undo-button",
+      "targets": [
+        ["id=undo-button", "id"],
+        ["css=#undo-button", "css:finder"],
+        ["xpath=//button[@id='undo-button']", "xpath:attributes"],
+        ["xpath=//div[@id='mapid']/div[2]/div[6]/div/div/div/button", "xpath:idRelative"],
+        ["xpath=//div[6]/div/div/div/button", "xpath:position"],
+        ["xpath=//button[contains(.,'Undo')]", "xpath:innerText"]
+      ],
+      "value": ""
+    }, {
+      "id": "5f63bb12-009f-4038-8cd8-1b5f1b484f6d",
+      "comment": "",
+      "command": "click",
+      "target": "css=#panel-toggle > span",
+      "targets": [
+        ["css=#panel-toggle > span", "css:finder"],
+        ["xpath=//button[@id='panel-toggle']/span", "xpath:idRelative"],
+        ["xpath=//button/span", "xpath:position"]
+      ],
+      "value": ""
+    }, {
+      "id": "eee93d0c-cdbb-42a9-a078-03c5f0901d34",
+      "comment": "",
+      "command": "click",
+      "target": "id=hide-subregions",
+      "targets": [
+        ["id=hide-subregions", "id"],
+        ["css=#hide-subregions", "css:finder"],
+        ["xpath=//input[@id='hide-subregions']", "xpath:attributes"],
+        ["xpath=//div[@id='controls']/ul/li[4]/input", "xpath:idRelative"],
+        ["xpath=//li[4]/input", "xpath:position"]
+      ],
+      "value": ""
+    }, {
+      "id": "b291d133-faf7-48ee-815d-f233994f98b0",
+      "comment": "",
+      "command": "click",
+      "target": "id=hide-bioregions",
+      "targets": [
+        ["id=hide-bioregions", "id"],
+        ["css=#hide-bioregions", "css:finder"],
+        ["xpath=//input[@id='hide-bioregions']", "xpath:attributes"],
+        ["xpath=//div[@id='controls']/ul/li[3]/input", "xpath:idRelative"],
+        ["xpath=//li[3]/input", "xpath:position"]
+      ],
+      "value": ""
+    }, {
+      "id": "4ce4c7da-3ffe-4309-878a-408a5372c6d7",
+      "comment": "",
+      "command": "close",
+      "target": "",
+      "targets": [],
+      "value": ""
+    }]
+  }, {
+    "id": "9c5bcf87-4cd8-4462-89af-989268dae85e",
+    "name": "Intractable Selector",
+    "commands": [{
+      "id": "c863ca47-7f6b-4444-900c-7ffe6d7b7c0a",
+      "comment": "",
+      "command": "open",
+      "target": "https://www.greenprints.org.au/map-app/",
+      "targets": [],
+      "value": ""
+    }, {
+      "id": "bd9377de-e17a-4be1-ba41-efa68aec7a7e",
+      "comment": "",
+      "command": "setWindowSize",
+      "target": "1280x680",
+      "targets": [],
+      "value": ""
+    }, {
+      "id": "5f071e48-4cc8-499f-8cd6-c2da6c7d08b3",
+      "comment": "",
+      "command": "click",
+      "target": "id=Selector",
+      "targets": [
+        ["id=Selector", "id"],
+        ["css=#Selector", "css:finder"],
+        ["xpath=//select[@id='Selector']", "xpath:attributes"],
+        ["xpath=//div[@id='Drawingselector']/select", "xpath:idRelative"],
+        ["xpath=//select", "xpath:position"]
+      ],
+      "value": ""
+    }, {
+      "id": "8cbf9624-e173-44ff-a8b5-e457c3ea53cc",
+      "comment": "",
+      "command": "select",
+      "target": "id=Selector",
+      "targets": [],
+      "value": "label=Intensive production"
+    }, {
+      "id": "c441d8b8-8077-4745-a888-9f27346e373d",
+      "comment": "",
+      "command": "click",
+      "target": "id=Selector",
+      "targets": [
+        ["id=Selector", "id"],
+        ["css=#Selector", "css:finder"],
+        ["xpath=//select[@id='Selector']", "xpath:attributes"],
+        ["xpath=//div[@id='Drawingselector']/select", "xpath:idRelative"],
+        ["xpath=//select", "xpath:position"]
+      ],
+      "value": ""
+    }, {
+      "id": "9c7b2a77-5d81-459c-abb4-d00fc719cdf1",
+      "comment": "",
+      "command": "click",
+      "target": "id=Selector",
+      "targets": [
+        ["id=Selector", "id"],
+        ["css=#Selector", "css:finder"],
+        ["xpath=//select[@id='Selector']", "xpath:attributes"],
+        ["xpath=//div[@id='Drawingselector']/select", "xpath:idRelative"],
+        ["xpath=//select", "xpath:position"]
+      ],
+      "value": ""
+    }, {
+      "id": "c46c8293-4962-4e31-bb52-00162688ae47",
+      "comment": "",
+      "command": "select",
+      "target": "id=Selector",
+      "targets": [],
+      "value": "label=Land in transition"
+    }, {
+      "id": "422d27a4-7433-4bbe-883d-7e18905e5b65",
+      "comment": "",
+      "command": "click",
+      "target": "id=Selector",
+      "targets": [
+        ["id=Selector", "id"],
+        ["css=#Selector", "css:finder"],
+        ["xpath=//select[@id='Selector']", "xpath:attributes"],
+        ["xpath=//div[@id='Drawingselector']/select", "xpath:idRelative"],
+        ["xpath=//select", "xpath:position"]
+      ],
+      "value": ""
+    }, {
+      "id": "6b7ce5a7-5a95-4968-a563-6be6e29b8709",
+      "comment": "",
+      "command": "close",
+      "target": "",
+      "targets": [],
+      "value": ""
+    }]
+  }, {
+    "id": "918f1dee-8b7e-46ff-99e8-fd478e8bccc6",
+    "name": "Interacable toolbar",
+    "commands": [{
+      "id": "373c4e94-b7ab-43ad-8a53-2734b184edd4",
+      "comment": "",
+      "command": "open",
+      "target": "https://www.greenprints.org.au/map-app/",
+      "targets": [],
+      "value": ""
+    }, {
+      "id": "9b6b3a5d-e16c-4677-a87f-13fefb8cf9f4",
+      "comment": "",
+      "command": "setWindowSize",
+      "target": "1280x680",
+      "targets": [],
+      "value": ""
+    }, {
+      "id": "3a4fb835-07de-4cb7-acef-1fb99ddffb6f",
+      "comment": "",
+      "command": "click",
+      "target": "id=Selector",
+      "targets": [
+        ["id=Selector", "id"],
+        ["css=#Selector", "css:finder"],
+        ["xpath=//select[@id='Selector']", "xpath:attributes"],
+        ["xpath=//div[@id='Drawingselector']/select", "xpath:idRelative"],
+        ["xpath=//select", "xpath:position"]
+      ],
+      "value": ""
+    }, {
+      "id": "042ba7bf-3c60-4186-b62b-0dd0dae36b4d",
+      "comment": "",
+      "command": "select",
+      "target": "id=Selector",
+      "targets": [],
+      "value": "label=Urban intensive uses"
+    }, {
+      "id": "7f176940-e132-4eda-abc6-d9b856151c5f",
+      "comment": "",
+      "command": "click",
+      "target": "id=Selector",
+      "targets": [
+        ["id=Selector", "id"],
+        ["css=#Selector", "css:finder"],
+        ["xpath=//select[@id='Selector']", "xpath:attributes"],
+        ["xpath=//div[@id='Drawingselector']/select", "xpath:idRelative"],
+        ["xpath=//select", "xpath:position"]
+      ],
+      "value": ""
+    }, {
+      "id": "a308b4f8-ee56-400d-9a0d-309aacece740",
+      "comment": "",
+      "command": "click",
+      "target": "linkText=Draw a polygon",
+      "targets": [
+        ["linkText=Draw a polygon", "linkText"],
+        ["css=.leaflet-draw-draw-polygon", "css:finder"],
+        ["xpath=//div[@id='mapid']/div[3]/div[3]/div/div/div/a", "xpath:idRelative"],
+        ["xpath=(//a[contains(@href, '#')])[6]", "xpath:href"],
+        ["xpath=//div[3]/div/div/div/a", "xpath:position"],
+        ["xpath=//a[contains(.,'Draw a polygon')]", "xpath:innerText"]
+      ],
+      "value": ""
+    }, {
+      "id": "3ba8e876-f347-45b2-b1de-cee875925bec",
+      "comment": "",
+      "command": "click",
+      "target": "linkText=Edit layers",
+      "targets": [
+        ["linkText=Edit layers", "linkText"],
+        ["css=.leaflet-draw-edit-edit", "css:finder"],
+        ["xpath=//div[@id='mapid']/div[3]/div[3]/div/div[2]/div/a", "xpath:idRelative"],
+        ["xpath=(//a[contains(@href, '#')])[10]", "xpath:href"],
+        ["xpath=//div[2]/div/a", "xpath:position"],
+        ["xpath=//a[contains(.,'Edit layers')]", "xpath:innerText"]
+      ],
+      "value": ""
+    }, {
+      "id": "aaf175a4-cf43-409f-9e5f-fe658f05a5d3",
+      "comment": "",
+      "command": "click",
+      "target": "linkText=Cancel",
+      "targets": [
+        ["linkText=Cancel", "linkText"],
+        ["css=.leaflet-draw-actions > li:nth-child(3) > a", "css:finder"],
+        ["xpath=//a[contains(text(),'Cancel')]", "xpath:link"],
+        ["xpath=//div[@id='mapid']/div[3]/div[3]/div/div/ul/li[3]/a", "xpath:idRelative"],
+        ["xpath=(//a[contains(@href, '#')])[9]", "xpath:href"],
+        ["xpath=//div/div/ul/li[3]/a", "xpath:position"],
+        ["xpath=//a[contains(.,'Cancel')]", "xpath:innerText"]
+      ],
+      "value": ""
+    }, {
+      "id": "bf601783-673e-4dd2-b98b-171ac8c6751a",
+      "comment": "",
+      "command": "click",
+      "target": "linkText=Edit layers",
+      "targets": [
+        ["linkText=Edit layers", "linkText"],
+        ["css=.leaflet-draw-edit-edit", "css:finder"],
+        ["xpath=//div[@id='mapid']/div[3]/div[3]/div/div[2]/div/a", "xpath:idRelative"],
+        ["xpath=(//a[contains(@href, '#')])[10]", "xpath:href"],
+        ["xpath=//div[2]/div/a", "xpath:position"],
+        ["xpath=//a[contains(.,'Edit layers')]", "xpath:innerText"]
+      ],
+      "value": ""
+    }, {
+      "id": "9ff83be5-f9e6-4b84-84e9-101529b1542c",
+      "comment": "",
+      "command": "click",
+      "target": "linkText=Delete layers",
+      "targets": [
+        ["linkText=Delete layers", "linkText"],
+        ["css=.leaflet-draw-edit-remove", "css:finder"],
+        ["xpath=//div[@id='mapid']/div[3]/div[3]/div/div[2]/div/a[2]", "xpath:idRelative"],
+        ["xpath=(//a[contains(@href, '#')])[11]", "xpath:href"],
+        ["xpath=//div[2]/div/a[2]", "xpath:position"],
+        ["xpath=//a[contains(.,'Delete layers')]", "xpath:innerText"]
+      ],
+      "value": ""
+    }, {
+      "id": "0ed581d6-c35e-4870-882e-67e938ead085",
+      "comment": "",
+      "command": "click",
+      "target": "linkText=Delete layers",
+      "targets": [
+        ["linkText=Delete layers", "linkText"],
+        ["css=.leaflet-draw-edit-remove", "css:finder"],
+        ["xpath=//div[@id='mapid']/div[3]/div[3]/div/div[2]/div/a[2]", "xpath:idRelative"],
+        ["xpath=(//a[contains(@href, '#')])[11]", "xpath:href"],
+        ["xpath=//div[2]/div/a[2]", "xpath:position"],
+        ["xpath=//a[contains(.,'Delete layers')]", "xpath:innerText"]
+      ],
+      "value": ""
+    }, {
+      "id": "bdf21925-f919-4d40-8053-7da6991e9307",
+      "comment": "",
+      "command": "close",
+      "target": "",
+      "targets": [],
+      "value": ""
+    }]
+  }, {
+    "id": "a538db25-1c02-43c1-bfda-a35cf2b94cb0",
+    "name": "Export file",
+    "commands": [{
+      "id": "45a7decc-79ce-43c6-9b31-d1acca7b3dd7",
+      "comment": "",
+      "command": "open",
+      "target": "https://www.greenprints.org.au/map-app/",
+      "targets": [],
+      "value": ""
+    }, {
+      "id": "d2627638-96fd-442b-8849-fa374fe8096e",
+      "comment": "",
+      "command": "setWindowSize",
+      "target": "1050x660",
+      "targets": [],
+      "value": ""
+    }, {
+      "id": "d2666901-c99b-497d-8b4b-3b4d48df7856",
+      "comment": "",
+      "command": "click",
+      "target": "id=save-button",
+      "targets": [
+        ["id=save-button", "id"],
+        ["css=#save-button", "css:finder"],
+        ["xpath=//button[@id='save-button']", "xpath:attributes"],
+        ["xpath=//div[@id='mapid']/div/button", "xpath:idRelative"],
+        ["xpath=//div[2]/div/button", "xpath:position"]
+      ],
+      "value": ""
+    }, {
+      "id": "951972fe-c0c0-4776-85a9-f75e804a16aa",
+      "comment": "",
+      "command": "runScript",
+      "target": "window.scrollTo(0,442.6666564941406)",
+      "targets": [],
+      "value": ""
+    }, {
+      "id": "e5abe75d-0a28-4957-82f5-5d88f01ecb5b",
+      "comment": "",
+      "command": "close",
+      "target": "",
+      "targets": [],
+      "value": ""
+    }]
+  }],
+  "suites": [{
+    "id": "90c914a1-1f68-49a4-b3c7-73620cb1605f",
+    "name": "Default Suite",
+    "persistSession": false,
+    "parallel": false,
+    "timeout": 300,
+    "tests": ["161cf1c5-b60b-4160-ad08-900b0b1cb979"]
+  }],
+  "urls": ["https://www.greenprints.org.au/", "https://www.greenprints.org.au/map-app"],
+  "plugins": []
+}
