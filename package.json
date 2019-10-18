@@ -29,6 +29,7 @@
   "dependencies": {
     "leaflet-draw": "^1.0.4",
     "leaflet-easybutton": "^2.4.0",
-    "leaflet-easyprint": "^2.1.9"
+    "leaflet-easyprint": "^2.1.9",
+    "node-modules": "^1.0.1"
   }
 }

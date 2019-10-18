@@ -1,11 +1,19 @@
 
 *******************************************************
-to make changes to this program navigate to the project directory inside a terminal and install webpack with the following command. 
-(Node has to be installed)
+Step 1: Install node modules
+	Navigate to the directory home directory (Greenprints-master) and open your terminal (gitbash etc).
+	type the following command.
+		$ npm i node-modules
+	this will install node modules in the directory. Node modules are ignored in the gitignore but are neccasry for the project to run.
 
-	> npm i -D webpack webpack-cli
+Step 2: Install webpack
+	while still in the main directory using your terminal type the following command.
+		$ npm i -D webpack webpack-cli
+	this will install webpack to your directory as is necessary it run the project due to the way it was built.
 
-Once installation is finished run the command 
-	> NPM Run Build
-This will build the project into the bundle.js and can show changes you made in main.js
+step 3: Building the project
+	Once Webpack is installed run the following command. 
+		$ npm Run Build	
+	this will bundle src/main.js into dist/bundle.js tp emulate what the live server will run. _index.html runs the dist/bundle.js script and can be used to test any changes you have made.
+	
 
